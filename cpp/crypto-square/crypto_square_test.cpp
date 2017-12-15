@@ -11,12 +11,12 @@ BOOST_AUTO_TEST_CASE(normalize_spaces)
 {
     BOOST_REQUIRE_EQUAL("hithere", crypto_square::cipher("Hi there").normalize_plain_text());
 }
-#if defined(EXERCISM_RUN_ALL_TESTS)
 
 BOOST_AUTO_TEST_CASE(normalize_numbers)
 {
     BOOST_REQUIRE_EQUAL("123go", crypto_square::cipher("1, 2, 3 GO!").normalize_plain_text());
 }
+
 
 BOOST_AUTO_TEST_CASE(plain_text_empty)
 {
@@ -53,6 +53,7 @@ BOOST_AUTO_TEST_CASE(plain_text_segments_from_phrase)
 
     BOOST_REQUIRE_EQUAL_COLLECTIONS(expected.begin(), expected.end(), actual.begin(), actual.end());
 }
+#if defined(EXERCISM_RUN_ALL_TESTS)
 
 BOOST_AUTO_TEST_CASE(cipher_text_empty_phrase)
 {
