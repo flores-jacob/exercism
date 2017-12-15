@@ -53,7 +53,6 @@ BOOST_AUTO_TEST_CASE(plain_text_segments_from_phrase)
 
     BOOST_REQUIRE_EQUAL_COLLECTIONS(expected.begin(), expected.end(), actual.begin(), actual.end());
 }
-#if defined(EXERCISM_RUN_ALL_TESTS)
 
 BOOST_AUTO_TEST_CASE(cipher_text_empty_phrase)
 {
@@ -84,4 +83,5 @@ BOOST_AUTO_TEST_CASE(normalized_cipher_text_long_phrase)
     BOOST_REQUIRE_EQUAL("imtgdvs fearwer mayoogo anouuio ntnnlvt wttddes aohghn  sseoau ",
         crypto_square::cipher("If man was meant to stay on the ground, god would have given us roots.").normalized_cipher_text());
 }
+#if defined(EXERCISM_RUN_ALL_TESTS)
 #endif

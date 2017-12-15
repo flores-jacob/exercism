@@ -10,16 +10,23 @@ namespace crypto_square
         private:
             std::string input;
             std::string normalized_input;
+            std::vector<std::string> segmented_text;
+            std::string cipher_text_result;
+            std::string normalized_cipher_text_result;
         public:
             cipher(std::string string_input);
             std::string normalize_plain_text();
             std::vector<std::string> plain_text_segments();
+            std::string cipher_text();
+            std::string normalized_cipher_text();
     };
 
     cipher::cipher(std::string string_input)
     {
         input = string_input;
         normalized_input = normalize_plain_text();
+        segmented_text = plain_text_segments();
+        cipher_text_result = cipher_text();
     };
 
     std::string cipher::normalize_plain_text()
@@ -80,4 +87,65 @@ namespace crypto_square
         return text_segments_vector;
     };
 
+    std::string cipher::cipher_text()
+    {
+        // if there is no segmented text, return an empty string;
+        if (segmented_text.empty()){
+            return "";
+        };
+
+        // initialize output variable
+        std::string cipher_text_result;
+
+        // get the first segment, column length is equal to the length of this first segment
+        int n_cols = segmented_text[0].length();
+        int n_rows = segmented_text.size();
+
+        // loop through each column element of each segment
+        for (int i=0; i<n_cols; i++){
+            for (std::string elem: segmented_text){
+                if (i < elem.length()){
+                    cipher_text_result += elem.at(i);
+                };
+            };
+        };
+
+        return cipher_text_result;
+    };
+
+    std::string cipher::normalized_cipher_text()
+    {
+        if (segmented_text.empty()){
+            return "";
+        };
+
+        std::string normalized_cipher_text_result;
+
+        // get the number of cols and rows of the segmented text
+        int n_cols = segmented_text[0].length();
+        int n_rows = segmented_text.size();
+
+        // loop through each row and column
+        for (int col=0; col<n_cols; col++){
+            for (int row=0; row<n_rows; row++){
+                std::string row_element = segmented_text[row];
+                // if the current element is not as long as the designated row length,
+                // then we pad it with a space
+                if (row_element.length() <= col){
+                    normalized_cipher_text_result += " ";
+                // otherwise, its business as usual, and we append the element on it to the result
+                }else{
+                    normalized_cipher_text_result += row_element.at(col);
+                };
+            };
+
+            // once we are done looping through the row items in the column, we append a space
+            // as long as this is not the final column
+            if (col < n_cols - 1){
+                normalized_cipher_text_result += " ";
+            };
+        };
+
+        return normalized_cipher_text_result;
+    };
 };
