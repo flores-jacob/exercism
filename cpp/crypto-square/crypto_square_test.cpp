@@ -7,11 +7,11 @@ BOOST_AUTO_TEST_CASE(normalize_capitals)
     BOOST_REQUIRE_EQUAL("hello", crypto_square::cipher("Hello").normalize_plain_text());
 }
 
-#if defined(EXERCISM_RUN_ALL_TESTS)
 BOOST_AUTO_TEST_CASE(normalize_spaces)
 {
     BOOST_REQUIRE_EQUAL("hithere", crypto_square::cipher("Hi there").normalize_plain_text());
 }
+#if defined(EXERCISM_RUN_ALL_TESTS)
 
 BOOST_AUTO_TEST_CASE(normalize_numbers)
 {
