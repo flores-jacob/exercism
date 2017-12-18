@@ -26,19 +26,24 @@ namespace say
     std::string in_english(unsigned long long input)
     {
 
+        if (input == 0ULL){
+            return "zero";
+        };
+
         int hundreds_input = input/100;
         int tens_ones_input = input - (hundreds_input * 100);
         int tens_input = tens_ones_input/10;
-        int ones_input = (input - (tens_input * 10));
+        int ones_input = (input - (hundreds_input * 100) - (tens_input * 10));
 
         std::string tens_ones_string;
+        std::string final_string;
 
         if (tens_ones_input < 20)
         {
             std::string teens;
             switch(tens_ones_input)
             {
-                case 0: tens_ones_string = "zero"; break;
+                // case 0: tens_ones_string = "zero"; break;
                 case 1: tens_ones_string = "one"; break;
                 case 2: tens_ones_string = "two"; break;
                 case 3: tens_ones_string = "three"; break;
@@ -82,33 +87,32 @@ namespace say
                 case 9: tens = "ninety"; break;
             };
 
-            std::string hundreds;
-            std::cout << "hundreds input: " << hundreds_input << std::endl;
-            switch(tens_input)
-            {
-                case 0: tens = ""; break;
-                case 1: tens = "ten"; break;
-                case 2: tens = "twenty"; break;
-                case 3: tens = "thirty"; break;
-                case 4: tens = "forty"; break;
-                case 5: tens = "fifty"; break;
-                case 6: tens = "sixty"; break;
-                case 7: tens = "seventy"; break;
-                case 8: tens = "eighty"; break;
-                case 9: tens = "ninety"; break;
-            };
-
-
             if (ones_input ==  0){
                 tens_ones_string = tens;
+            }else if (tens_input == 0){
+                tens_ones_string = "";
             }else{
                 tens_ones_string = tens + "-" + ones;
             };
-
-
         };
 
-        std::cout << "tens ones string: " << tens_ones_string << std::endl;
-        return tens_ones_string;
+        std::string hundreds_string;
+        if (hundreds_input > 0){
+            hundreds_string = unit_value(hundreds_input) + " hundred";
+        }else{
+            hundreds_string = "";
+        };
+
+        std::cout << "hundreds input: " << hundreds_input << std::endl;
+
+        if ((hundreds_string != "") && (tens_ones_string != "")){
+            final_string = hundreds_string + " " + tens_ones_string;
+        }else if (tens_ones_string != ""){
+            final_string = tens_ones_string;
+        }else{
+            final_string = hundreds_string;
+        };
+
+        return final_string;
     };
 };
