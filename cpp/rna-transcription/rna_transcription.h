@@ -18,7 +18,13 @@ namespace transcription {
 
     std::string to_rna(std::string dna_input)
     {
-        return "G";
+        std::string rna_output;
+        for (char elem: dna_input)
+        {
+            rna_output += to_rna(elem);
+        };
+
+        return rna_output;
     };
 
 
