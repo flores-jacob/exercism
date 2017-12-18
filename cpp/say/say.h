@@ -1,7 +1,7 @@
 #include <string>
 #include <iostream>
 #include <vector>
-
+#include <stdexcept>
 namespace say
 {
 
@@ -133,12 +133,15 @@ namespace say
             return "zero";
         };
 
-        int billions_input = input/1000000000;
-        int millions_input = (input - (billions_input * 1000000000))/1000000;
-        std::cout << "millions " << millions_input << std::endl;
+        int billions_input = input/1000000000ULL;
+        int millions_input = (input - (billions_input * 1000000000ULL))/1000000;
 
-        int thousands_input = (input - (billions_input * 1000000000) - (millions_input * 1000000))/1000;
-        int hundreds_tens_ones_input = (input - (billions_input * 1000000000) - (millions_input * 1000000) - (thousands_input * 1000));
+        int thousands_input = (input - (billions_input * 1000000000ULL) - (millions_input * 1000000ULL))/1000;
+        int hundreds_tens_ones_input = (input - (billions_input * 1000000000ULL) - (millions_input * 1000000ULL) - (thousands_input * 1000));
+
+        std::cout << "billions " << billions_input << std::endl;
+        std::cout << "millions " << millions_input << std::endl;
+        std::cout << "thousands " << thousands_input << std::endl;
 
         std::string hundreds_string = hundreds_chunk_parser(hundreds_tens_ones_input);
 
