@@ -2,9 +2,32 @@
 #include <iostream>
 namespace say
 {
+
+    std::string unit_value(int unit_value_input)
+    {
+        std::string unit_value;
+        switch(unit_value_input)
+        {
+            case 0: unit_value = ""; break;
+            case 1: unit_value = "one"; break;
+            case 2: unit_value = "two"; break;
+            case 3: unit_value = "three"; break;
+            case 4: unit_value = "four"; break;
+            case 5: unit_value = "five"; break;
+            case 6: unit_value = "six"; break;
+            case 7: unit_value = "seven"; break;
+            case 8: unit_value = "eight"; break;
+            case 9: unit_value = "nine"; break;
+        };
+
+        return unit_value;
+    };
+
     std::string in_english(unsigned long long input)
     {
-        int tens_ones_input = input;
+
+        int hundreds_input = input/100;
+        int tens_ones_input = input - (hundreds_input * 100);
         int tens_input = tens_ones_input/10;
         int ones_input = (input - (tens_input * 10));
 
@@ -40,6 +63,9 @@ namespace say
         }else
 
         {
+            std::string ones = unit_value(ones_input);
+            std::cout << "ones input: " << ones_input << std::endl;
+
             std::string tens;
             std::cout << "tens input: " << tens_input << std::endl;
             switch(tens_input)
@@ -56,21 +82,22 @@ namespace say
                 case 9: tens = "ninety"; break;
             };
 
-            std::string ones;
-            std::cout << "ones input: " << ones_input << std::endl;
-            switch(ones_input)
+            std::string hundreds;
+            std::cout << "hundreds input: " << hundreds_input << std::endl;
+            switch(tens_input)
             {
-                case 0: ones = ""; break;
-                case 1: ones = "one"; break;
-                case 2: ones = "two"; break;
-                case 3: ones = "three"; break;
-                case 4: ones = "four"; break;
-                case 5: ones = "five"; break;
-                case 6: ones = "six"; break;
-                case 7: ones = "seven"; break;
-                case 8: ones = "eight"; break;
-                case 9: ones = "nine"; break;
+                case 0: tens = ""; break;
+                case 1: tens = "ten"; break;
+                case 2: tens = "twenty"; break;
+                case 3: tens = "thirty"; break;
+                case 4: tens = "forty"; break;
+                case 5: tens = "fifty"; break;
+                case 6: tens = "sixty"; break;
+                case 7: tens = "seventy"; break;
+                case 8: tens = "eighty"; break;
+                case 9: tens = "ninety"; break;
             };
+
 
             if (ones_input ==  0){
                 tens_ones_string = tens;
