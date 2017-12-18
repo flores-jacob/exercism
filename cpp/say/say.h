@@ -128,6 +128,10 @@ namespace say
 
     std::string in_english(unsigned long long input)
     {
+        std::cout << "displaying input " << input <<  std::endl;
+        if (input >= 1000000000000ULL){
+            throw std::domain_error("Input value is out of bounds");
+        };
 
         if (input == 0ULL){
             return "zero";

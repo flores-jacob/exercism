@@ -80,7 +80,6 @@ BOOST_AUTO_TEST_CASE(a_really_big_number)
             " one hundred twenty-three",
         say::in_english(987654321123ULL));
 }
-#if defined(EXERCISM_RUN_ALL_TESTS)
 
 BOOST_AUTO_TEST_CASE(raises_an_error_below_zero)
 {
@@ -91,4 +90,5 @@ BOOST_AUTO_TEST_CASE(raises_an_error_for_one_trillion)
 {
     BOOST_REQUIRE_THROW(say::in_english(1000ULL*1000ULL*1000ULL*1000ULL), std::domain_error);
 }
+#if defined(EXERCISM_RUN_ALL_TESTS)
 #endif
