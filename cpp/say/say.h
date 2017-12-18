@@ -33,6 +33,8 @@ namespace say
         int tens_input = (input - (hundreds_input * 100))/10;
         int ones_input = (input - (hundreds_input * 100) - (tens_input * 10));
 
+        std::cout << "hundreds input: " << input << std::endl;
+        std::cout << "tens_ones_input " << tens_ones_input << std::endl;
         std::string tens_ones_string;
         std::string final_string;
 
@@ -103,13 +105,21 @@ namespace say
 
         std::cout << "hundreds input: " << hundreds_input << std::endl;
 
-        std::vector<std::string> string_vector = {hundreds_string, tens_ones_string};
-
+//        std::vector<std::string> string_vector = {hundreds_string, tens_ones_string};
+//
         std::string compound_string;
-        for (int i=string_vector.size() - 1; i >= 0; i--){
-            if (string_vector.at(i) != ""){
-                compound_string = string_vector.at(i) + " " + compound_string;
-            };
+//        for (int i=string_vector.size() - 1; i >= 0; i--){
+//            if (string_vector.at(i) != ""){
+//                compound_string = string_vector.at(i) + " " + compound_string;
+//            };
+//        };
+
+        if ((tens_ones_string != "") && (hundreds_string !="")){
+            compound_string = hundreds_string + " " + tens_ones_string;
+        }else if((tens_ones_string == "") && (hundreds_string !="")){
+            compound_string = hundreds_string;
+        }else if((tens_ones_string != "") && (hundreds_string =="")){
+            compound_string = tens_ones_string;
         };
 
         return compound_string;
@@ -123,18 +133,30 @@ namespace say
             return "zero";
         };
 
+        int billions_input = input/1000000000;
+        int millions_input = (input - (billions_input * 1000000000))/1000000;
+        std::cout << "millions " << millions_input << std::endl;
 
-        int thousands_input = input/1000;
+        int thousands_input = (input - (billions_input * 1000000000) - (millions_input * 1000000))/1000;
+        int hundreds_tens_ones_input = (input - (billions_input * 1000000000) - (millions_input * 1000000) - (thousands_input * 1000));
+
+        std::string hundreds_string = hundreds_chunk_parser(hundreds_tens_ones_input);
 
         std::string thousands_string;
         if (thousands_input > 0){
-            thousands_string = unit_value(thousands_input) + " thousand";
+            thousands_string = hundreds_chunk_parser(thousands_input) + " thousand";
         }else{
             thousands_string = "";
         };
 
+        std::string millions_string;
+        if (millions_input > 0){
+            millions_string = hundreds_chunk_parser(millions_input) + " million";
+        }else{
+            millions_string = "";
+        };
+
         std::string compound_string;
-        std::string hundreds_string = hundreds_chunk_parser(input - (thousands_input * 1000));
 
         if ((thousands_string != "") && (hundreds_string != "")){
             compound_string = thousands_string + " " + hundreds_string;
