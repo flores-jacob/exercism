@@ -1,4 +1,5 @@
 #include <string>
+#include <stdexcept>
 
 namespace transcription {
 
@@ -10,10 +11,9 @@ namespace transcription {
             case 'C': return 'G';
             case 'A': return 'U';
             case 'T': return 'A';
+            // throw and exception if input is invalid
+            default: throw std::invalid_argument("Invalid input");
             }
-
-        // raise an error if input is malformed
-        return 1;
     };
 
     std::string to_rna(std::string dna_input)
