@@ -1,5 +1,7 @@
 #include <string>
 #include <iostream>
+#include <vector>
+
 namespace say
 {
 
@@ -30,10 +32,11 @@ namespace say
             return "zero";
         };
 
-        int hundreds_input = input/100;
+        int thousands_input = input/1000;
+        int hundreds_input = (input - (thousands_input * 1000))/100;
         int tens_ones_input = input - (hundreds_input * 100);
-        int tens_input = tens_ones_input/10;
-        int ones_input = (input - (hundreds_input * 100) - (tens_input * 10));
+        int tens_input = (input - (thousands_input * 1000) - (hundreds_input * 100))/10;
+        int ones_input = (input - (thousands_input * 1000) - (hundreds_input * 100) - (tens_input * 10));
 
         std::string tens_ones_string;
         std::string final_string;
@@ -105,14 +108,32 @@ namespace say
 
         std::cout << "hundreds input: " << hundreds_input << std::endl;
 
-        if ((hundreds_string != "") && (tens_ones_string != "")){
-            final_string = hundreds_string + " " + tens_ones_string;
-        }else if (tens_ones_string != ""){
-            final_string = tens_ones_string;
+        std::string thousands_string;
+        if (thousands_input > 0){
+            thousands_string = unit_value(thousands_input) + " thousand";
         }else{
-            final_string = hundreds_string;
+            thousands_string = "";
         };
 
-        return final_string;
+//        final_string += thousands_string;
+//        if (thousands_string != ""){
+//            final_string += " " + hundreds_string;
+//        };
+
+        std::vector<std::string> string_vector = {thousands_string, hundreds_string, tens_ones_string};
+
+        std::string compound_string;
+        for (int i=string_vector.size() - 1; i >= 0; i--){
+            if (string_vector.at(i) != ""){
+                compound_string = string_vector.at(i) + " " + compound_string;
+            };
+        };
+
+        // trim whitespace
+        while ((compound_string.length() != 0) && (compound_string.at(compound_string.length() - 1) == ' ')){
+            compound_string = compound_string.erase(compound_string.length() - 1);
+        };
+
+        return compound_string;
     };
 };

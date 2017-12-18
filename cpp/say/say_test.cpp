@@ -40,7 +40,7 @@ BOOST_AUTO_TEST_CASE(one_hundred_twenty_three)
 {
     BOOST_REQUIRE_EQUAL("one hundred twenty-three", say::in_english(123ULL));
 }
-#if defined(EXERCISM_RUN_ALL_TESTS)
+
 BOOST_AUTO_TEST_CASE(one_thousand)
 {
     BOOST_REQUIRE_EQUAL("one thousand", say::in_english(1000ULL));
@@ -50,6 +50,7 @@ BOOST_AUTO_TEST_CASE(one_thousand_two_hundred_thirty_four)
 {
     BOOST_REQUIRE_EQUAL("one thousand two hundred thirty-four", say::in_english(1234ULL));
 }
+#if defined(EXERCISM_RUN_ALL_TESTS)
 
 BOOST_AUTO_TEST_CASE(one_million)
 {
