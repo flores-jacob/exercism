@@ -1,6 +1,6 @@
 #include <string>
 #include <vector>
-
+#include <stdexcept>
 namespace series
 {
     std::vector<int> digits(std::string digits_string)
@@ -19,6 +19,11 @@ namespace series
 
     std::vector<std::vector<int>> slice(std::string digits_string, int series_length)
     {
+        if (digits_string.length() < series_length){
+            throw std::domain_error("Not enough digits to slice");
+        };
+
+
         std::vector<std::vector<int>> result_vector;
 
         // loop through each and every item in the digits_string
