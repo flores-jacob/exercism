@@ -156,8 +156,15 @@ namespace say
             millions_string = "";
         };
 
+        std::string billions_string;
+        if (billions_input > 0){
+            billions_string = hundreds_chunk_parser(billions_input) + " billion";
+        }else{
+            billions_string = "";
+        };
+
         std::string compound_string;
-        std::vector<std::string> numbers_vector = {millions_string, thousands_string, hundreds_string};
+        std::vector<std::string> numbers_vector = {billions_string, millions_string, thousands_string, hundreds_string};
 
         for (std::string elem: numbers_vector){
             if (!elem.empty()){
