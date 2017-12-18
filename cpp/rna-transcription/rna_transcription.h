@@ -11,7 +11,7 @@ namespace transcription {
             case 'C': return 'G';
             case 'A': return 'U';
             case 'T': return 'A';
-            // throw and exception if input is invalid
+            // throw an exception if input is invalid
             default: throw std::invalid_argument("Invalid input");
             }
     };
