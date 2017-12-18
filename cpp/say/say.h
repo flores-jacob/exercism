@@ -33,8 +33,6 @@ namespace say
         int tens_input = (input - (hundreds_input * 100))/10;
         int ones_input = (input - (hundreds_input * 100) - (tens_input * 10));
 
-        std::cout << "hundreds input: " << input << std::endl;
-        std::cout << "tens_ones_input " << tens_ones_input << std::endl;
         std::string tens_ones_string;
         std::string final_string;
 
@@ -69,10 +67,8 @@ namespace say
 
         {
             std::string ones = unit_value(ones_input);
-            std::cout << "ones input: " << ones_input << std::endl;
-
             std::string tens;
-            std::cout << "tens input: " << tens_input << std::endl;
+
             switch(tens_input)
             {
                 case 0: tens = ""; break;
@@ -103,16 +99,7 @@ namespace say
             hundreds_string = "";
         };
 
-        std::cout << "hundreds input: " << hundreds_input << std::endl;
-
-//        std::vector<std::string> string_vector = {hundreds_string, tens_ones_string};
-//
         std::string compound_string;
-//        for (int i=string_vector.size() - 1; i >= 0; i--){
-//            if (string_vector.at(i) != ""){
-//                compound_string = string_vector.at(i) + " " + compound_string;
-//            };
-//        };
 
         if ((tens_ones_string != "") && (hundreds_string !="")){
             compound_string = hundreds_string + " " + tens_ones_string;
@@ -128,7 +115,6 @@ namespace say
 
     std::string in_english(unsigned long long input)
     {
-        std::cout << "displaying input " << input <<  std::endl;
         if (input >= 1000000000000ULL){
             throw std::domain_error("Input value is out of bounds");
         };
@@ -142,10 +128,6 @@ namespace say
 
         int thousands_input = (input - (billions_input * 1000000000ULL) - (millions_input * 1000000ULL))/1000;
         int hundreds_tens_ones_input = (input - (billions_input * 1000000000ULL) - (millions_input * 1000000ULL) - (thousands_input * 1000));
-
-        std::cout << "billions " << billions_input << std::endl;
-        std::cout << "millions " << millions_input << std::endl;
-        std::cout << "thousands " << thousands_input << std::endl;
 
         std::string hundreds_string = hundreds_chunk_parser(hundreds_tens_ones_input);
 
