@@ -41,7 +41,6 @@ BOOST_AUTO_TEST_CASE(keeps_arbitrary_digit_order)
 
     BOOST_TEST(expected == actual, tt::per_element());
 }
-#if defined(EXERCISM_RUN_ALL_TESTS)
 
 BOOST_AUTO_TEST_CASE(can_slice_by_1)
 {
@@ -96,6 +95,7 @@ BOOST_AUTO_TEST_CASE(can_slice_by_5)
 
     BOOST_TEST(expected == actual);
 }
+#if defined(EXERCISM_RUN_ALL_TESTS)
 
 BOOST_AUTO_TEST_CASE(domain_error_if_not_enough_digits_to_slice)
 {
