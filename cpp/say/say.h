@@ -157,13 +157,12 @@ namespace say
         };
 
         std::string compound_string;
+        std::vector<std::string> numbers_vector = {millions_string, thousands_string, hundreds_string};
 
-        if ((thousands_string != "") && (hundreds_string != "")){
-            compound_string = thousands_string + " " + hundreds_string;
-        }else if ((thousands_string == "") && (hundreds_string != "")){
-            compound_string = hundreds_string;
-        }else if ((thousands_string != "") && (hundreds_string == "")){
-            compound_string = thousands_string;
+        for (std::string elem: numbers_vector){
+            if (!elem.empty()){
+                compound_string += elem + " ";
+            };
         };
 
 

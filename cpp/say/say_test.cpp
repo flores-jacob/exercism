@@ -50,12 +50,12 @@ BOOST_AUTO_TEST_CASE(one_thousand_two_hundred_thirty_four)
 {
     BOOST_REQUIRE_EQUAL("one thousand two hundred thirty-four", say::in_english(1234ULL));
 }
-#if defined(EXERCISM_RUN_ALL_TESTS)
 
 BOOST_AUTO_TEST_CASE(one_million)
 {
     BOOST_REQUIRE_EQUAL("one million", say::in_english(1000ULL*1000ULL));
 }
+#if defined(EXERCISM_RUN_ALL_TESTS)
 
 BOOST_AUTO_TEST_CASE(one_million_two)
 {
