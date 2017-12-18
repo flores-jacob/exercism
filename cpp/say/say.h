@@ -25,18 +25,13 @@ namespace say
         return unit_value;
     };
 
-    std::string in_english(unsigned long long input)
+    std::string hundreds_chunk_parser(int input)
     {
 
-        if (input == 0ULL){
-            return "zero";
-        };
-
-        int thousands_input = input/1000;
-        int hundreds_input = (input - (thousands_input * 1000))/100;
+        int hundreds_input = input /100;
         int tens_ones_input = input - (hundreds_input * 100);
-        int tens_input = (input - (thousands_input * 1000) - (hundreds_input * 100))/10;
-        int ones_input = (input - (thousands_input * 1000) - (hundreds_input * 100) - (tens_input * 10));
+        int tens_input = (input - (hundreds_input * 100))/10;
+        int ones_input = (input - (hundreds_input * 100) - (tens_input * 10));
 
         std::string tens_ones_string;
         std::string final_string;
@@ -108,14 +103,7 @@ namespace say
 
         std::cout << "hundreds input: " << hundreds_input << std::endl;
 
-        std::string thousands_string;
-        if (thousands_input > 0){
-            thousands_string = unit_value(thousands_input) + " thousand";
-        }else{
-            thousands_string = "";
-        };
-
-        std::vector<std::string> string_vector = {thousands_string, hundreds_string, tens_ones_string};
+        std::vector<std::string> string_vector = {hundreds_string, tens_ones_string};
 
         std::string compound_string;
         for (int i=string_vector.size() - 1; i >= 0; i--){
@@ -124,7 +112,40 @@ namespace say
             };
         };
 
-        // trim whitespace
+        return compound_string;
+
+    };
+
+    std::string in_english(unsigned long long input)
+    {
+
+        if (input == 0ULL){
+            return "zero";
+        };
+
+
+        int thousands_input = input/1000;
+
+        std::string thousands_string;
+        if (thousands_input > 0){
+            thousands_string = unit_value(thousands_input) + " thousand";
+        }else{
+            thousands_string = "";
+        };
+
+        std::string compound_string;
+        std::string hundreds_string = hundreds_chunk_parser(input - (thousands_input * 1000));
+
+        if ((thousands_string != "") && (hundreds_string != "")){
+            compound_string = thousands_string + " " + hundreds_string;
+        }else if ((thousands_string == "") && (hundreds_string != "")){
+            compound_string = hundreds_string;
+        }else if ((thousands_string != "") && (hundreds_string == "")){
+            compound_string = thousands_string;
+        };
+
+
+        // trim whitespace at the end
         while ((compound_string.length() != 0) && (compound_string.at(compound_string.length() - 1) == ' ')){
             compound_string = compound_string.erase(compound_string.length() - 1);
         };
