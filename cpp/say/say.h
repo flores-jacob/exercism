@@ -115,13 +115,6 @@ namespace say
             thousands_string = "";
         };
 
-        std::string thousands_string;
-        if (thousands_input > 0){
-            thousands_string = unit_value(thousands_input) + " thousand";
-        }else{
-            thousands_string = "";
-        };
-
         std::vector<std::string> string_vector = {thousands_string, hundreds_string, tens_ones_string};
 
         std::string compound_string;
