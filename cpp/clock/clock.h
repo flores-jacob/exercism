@@ -14,6 +14,7 @@ namespace date_independent
             // this function is static because the test cases call it without instantiating
             // a clock object
             static clock at(int hour_in, int minute_in);
+            clock plus(int additional_minutes);
             operator std::string() const;
 
     };
@@ -74,6 +75,10 @@ namespace date_independent
 
         // return the clock object that now has the desired values
         return clock_object;
+    };
+
+    clock clock::plus(int additional_minutes){
+        return at(hour, minute + additional_minutes);
     };
 
     clock::operator std::string() const
