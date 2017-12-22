@@ -20,19 +20,19 @@ namespace beer
 
     std::string verse(int verse_number)
     {
-        std::string verses;
+        std::string song;
 
         if (verse_number == 0){
-            verses = "No more bottles of beer on the wall, no more bottles of beer.\n"
+            song = "No more bottles of beer on the wall, no more bottles of beer.\n"
         "Go to the store and buy some more, 99 bottles of beer on the wall.\n";
         }else if (verse_number == 1){
-            verses = "1 bottle of beer on the wall, 1 bottle of beer.\n"
+            song = "1 bottle of beer on the wall, 1 bottle of beer.\n"
         "Take it down and pass it around, no more bottles of beer on the wall.\n";
         }else{
-            verses = generate_generic_verse(verse_number);
+            song = generate_generic_verse(verse_number);
         }
 
-        return verses;
+        return song;
     };
 
 }
