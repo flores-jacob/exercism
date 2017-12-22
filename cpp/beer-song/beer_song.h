@@ -35,4 +35,19 @@ namespace beer
         return song;
     };
 
+    std::string sing (int verse_start, int verse_end)
+    {
+        std::string song;
+
+        for (int i=verse_start; i >= verse_end; i--){
+            song += verse(i);
+            if (i != verse_end){
+                song += "\n";
+            };
+        };
+
+        return song;
+
+    };
+
 }

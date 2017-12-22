@@ -27,7 +27,6 @@ BOOST_AUTO_TEST_CASE(handles_0_bottles)
 
     BOOST_REQUIRE_EQUAL(expected, beer::verse(0));
 }
-#if defined(EXERCISM_RUN_ALL_TESTS)
 
 BOOST_AUTO_TEST_CASE(sings_several_verses)
 {
@@ -42,6 +41,7 @@ BOOST_AUTO_TEST_CASE(sings_several_verses)
 
     BOOST_REQUIRE_EQUAL(expected, beer::sing(8, 6));
 }
+#if defined(EXERCISM_RUN_ALL_TESTS)
 
 BOOST_AUTO_TEST_CASE(sings_the_rest_of_the_verses)
 {
