@@ -1,8 +1,12 @@
 #include <vector>
-#include <iostream>
+#include <stdexcept>
 namespace prime
 {
     int nth (int nth_prime){
+        if (nth_prime == 0){
+            throw std::domain_error("must request at least the first prime number");
+        };
+
         int current_prime_count = 0;
         std::vector<int> discovered_primes;
 

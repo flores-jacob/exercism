@@ -22,10 +22,11 @@ BOOST_AUTO_TEST_CASE(big_prime)
 {
     BOOST_REQUIRE_EQUAL(104743, prime::nth(10001));
 }
-#if defined(EXERCISM_RUN_ALL_TESTS)
 
 BOOST_AUTO_TEST_CASE(weird_case)
 {
     BOOST_REQUIRE_THROW(prime::nth(0), std::domain_error);
 }
+#if defined(EXERCISM_RUN_ALL_TESTS)
+
 #endif
