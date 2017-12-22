@@ -1,6 +1,7 @@
 #include "clock.h"
 #define BOOST_TEST_MAIN
 #include <boost/test/unit_test.hpp>
+#include <iostream>
 
 using namespace std;
 
@@ -182,7 +183,6 @@ BOOST_AUTO_TEST_CASE(time_tests)
     }
 }
 
-#if defined(EXERCISM_RUN_ALL_TESTS)
 BOOST_AUTO_TEST_CASE(add_tests)
 {
     for (addTest a : addCases) {
@@ -191,6 +191,7 @@ BOOST_AUTO_TEST_CASE(add_tests)
         BOOST_REQUIRE_MESSAGE(a.expected == actual, errorMsg(a.expected, actual, a.msg));
     }
 }
+#if defined(EXERCISM_RUN_ALL_TESTS)
 
 BOOST_AUTO_TEST_CASE(equal_tests)
 {

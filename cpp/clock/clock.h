@@ -7,18 +7,23 @@ namespace date_independent
         private:
             int hour;
             int minute;
+            std::string hour_string;
+            std::string minute_string;
         public:
             clock();
-            static std::string at(int hour_in, int minute_in);
+            // this function is static because the test cases call it without instantiating
+            // a clock object
+            static clock at(int hour_in, int minute_in);
+            operator std::string() const;
+
     };
 
     clock::clock()
     {
-        hour = 0;
-        minute = 0;
     };
 
-    std::string clock::at(int hour_in, int minute_in)
+    clock clock::at(int hour_in, int minute_in)
+
     {
         // adjust the number of hours by the number of times the minute hand goes around the clock face
         int hour_adjust = minute_in/60;
@@ -58,7 +63,21 @@ namespace date_independent
             minute_string = "0" + std::to_string(minute_val);
         };
 
-        // we combine the strings and return them
+        // Initialize a new clock object to hold the values
+        clock clock_object;
+
+        // assign the integer and string values
+        clock_object.minute_string = minute_string;
+        clock_object.hour_string = hour_string;
+        clock_object.minute = minute_val;
+        clock_object.hour = hour_val;
+
+        // return the clock object that now has the desired values
+        return clock_object;
+    };
+
+    clock::operator std::string() const
+    {
         return hour_string + ":" + minute_string;
     };
 
