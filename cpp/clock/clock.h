@@ -18,7 +18,7 @@ namespace date_independent
             clock plus(int additional_minutes);
             operator std::string() const;
             bool operator== (const clock &rhs) const;
-
+            bool operator!= (const clock &rhs) const;
     };
 
     clock::clock()
@@ -94,5 +94,10 @@ namespace date_independent
         return rhs.compound_string == compound_string;
     };
 
+
+    bool clock::operator != (const clock &rhs) const
+    {
+        return rhs.compound_string != compound_string;
+    };
 
 };

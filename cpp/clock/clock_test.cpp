@@ -208,9 +208,9 @@ BOOST_AUTO_TEST_CASE(equal_tests)
 
         if (e.expected)
             BOOST_REQUIRE_MESSAGE(clock1 == clock2, errorMsg(string(clock1), string(clock2), e.msg));
-//        else
-//            BOOST_REQUIRE_MESSAGE(clock1 != clock2,
-//                    "[" << string(clock1) << " == " << string(clock2) << "] test case: " << e.msg);
+        else
+            BOOST_REQUIRE_MESSAGE(clock1 != clock2,
+                    "[" << string(clock1) << " == " << string(clock2) << "] test case: " << e.msg);
     }
 }
 #if defined(EXERCISM_RUN_ALL_TESTS)
