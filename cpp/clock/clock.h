@@ -9,6 +9,7 @@ namespace date_independent
             int minute;
             std::string hour_string;
             std::string minute_string;
+            std::string compound_string;
         public:
             clock();
             // this function is static because the test cases call it without instantiating
@@ -16,6 +17,7 @@ namespace date_independent
             static clock at(int hour_in, int minute_in);
             clock plus(int additional_minutes);
             operator std::string() const;
+            bool operator== (const clock &rhs) const;
 
     };
 
@@ -72,6 +74,7 @@ namespace date_independent
         clock_object.hour_string = hour_string;
         clock_object.minute = minute_val;
         clock_object.hour = hour_val;
+        clock_object.compound_string = hour_string + ":" + minute_string;
 
         // return the clock object that now has the desired values
         return clock_object;
@@ -83,7 +86,13 @@ namespace date_independent
 
     clock::operator std::string() const
     {
-        return hour_string + ":" + minute_string;
+        return compound_string;
     };
+
+    bool clock::operator == (const clock &rhs) const
+    {
+        return rhs.compound_string == compound_string;
+    };
+
 
 };
