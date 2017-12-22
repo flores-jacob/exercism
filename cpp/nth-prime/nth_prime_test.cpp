@@ -17,12 +17,12 @@ BOOST_AUTO_TEST_CASE(sixth)
 {
     BOOST_REQUIRE_EQUAL(13, prime::nth(6));
 }
-#if defined(EXERCISM_RUN_ALL_TESTS)
 
 BOOST_AUTO_TEST_CASE(big_prime)
 {
     BOOST_REQUIRE_EQUAL(104743, prime::nth(10001));
 }
+#if defined(EXERCISM_RUN_ALL_TESTS)
 
 BOOST_AUTO_TEST_CASE(weird_case)
 {
