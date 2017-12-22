@@ -8,7 +8,6 @@ BOOST_AUTO_TEST_CASE(first)
     BOOST_REQUIRE_EQUAL(2, prime::nth(1));
 }
 
-#if defined(EXERCISM_RUN_ALL_TESTS)
 BOOST_AUTO_TEST_CASE(second)
 {
     BOOST_REQUIRE_EQUAL(3, prime::nth(2));
@@ -18,6 +17,7 @@ BOOST_AUTO_TEST_CASE(sixth)
 {
     BOOST_REQUIRE_EQUAL(13, prime::nth(6));
 }
+#if defined(EXERCISM_RUN_ALL_TESTS)
 
 BOOST_AUTO_TEST_CASE(big_prime)
 {
