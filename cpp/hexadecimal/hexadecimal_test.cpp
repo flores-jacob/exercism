@@ -31,12 +31,12 @@ BOOST_AUTO_TEST_CASE(hex_19ace_is_decimal_105166)
 {
     BOOST_REQUIRE_EQUAL(0x19ace, hexadecimal::convert("19ace"));
 }
-#if defined(EXERCISM_RUN_ALL_TESTS)
 
 BOOST_AUTO_TEST_CASE(invalid_hex_is_decimal_0)
 {
     BOOST_REQUIRE_EQUAL(0, hexadecimal::convert("carrot"));
 }
+#if defined(EXERCISM_RUN_ALL_TESTS)
 
 BOOST_AUTO_TEST_CASE(black)
 {

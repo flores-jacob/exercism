@@ -14,11 +14,15 @@ namespace hexadecimal {
             // check if char is from a to f (which represents 10 to 16)
             // then convert value to decimal by subtracting 87
             std::set<char> hexcharset{'a', 'b', 'c', 'd', 'e', 'f'};
+            std::set<char> hexcharintset{'0', '1', '2', '3', '4', '5', '6', '7', '8', '9'};
+
             if (hexcharset.count(current_char) == 1){
                 current_int = current_char - 87;
             // if it's not, it's probably an int
-            }else{
+            }else if (hexcharintset.count(current_char) == 1){
 			    current_int = current_char - '0';
+            }else{
+                return 0;
             };
 
 			// casting char to int value https://stackoverflow.com/a/30727561
