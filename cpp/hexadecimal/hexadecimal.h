@@ -8,19 +8,21 @@ namespace hexadecimal {
 		for (int i=input.length() - 1; i >=0 ; i--){
 			char current_char = input.at(i);
 
-            // initialize int variable
+            // initialize current_int variable
             int current_int;
 
-            // check if char is from a to f (which represents 10 to 16)
-            // then convert value to decimal by subtracting 87
             std::set<char> hexcharset{'a', 'b', 'c', 'd', 'e', 'f'};
             std::set<char> hexcharintset{'0', '1', '2', '3', '4', '5', '6', '7', '8', '9'};
 
+            // check if char is from a to f (which represents 10 to 16)
+            // then convert value to decimal by subtracting 87
             if (hexcharset.count(current_char) == 1){
                 current_int = current_char - 87;
-            // if it's not, it's probably an int
+            // if it's not, it's probably an int, and we get its value by
+            // subtracting '0
             }else if (hexcharintset.count(current_char) == 1){
 			    current_int = current_char - '0';
+			// if its something else, then we stop and return 0
             }else{
                 return 0;
             };
