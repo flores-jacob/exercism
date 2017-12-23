@@ -47,6 +47,7 @@ namespace queen_attack
     bool chess_board::can_attack() const{
         bool can_attack_horizontal = false;
         bool can_attack_vertical = false;
+        bool can_attack_diagonal = false;
 
         if (white_pos.first == black_pos.first){
             can_attack_horizontal = true;
@@ -56,7 +57,24 @@ namespace queen_attack
             can_attack_vertical = true;
         };
 
-        if (can_attack_horizontal || can_attack_vertical){
+        for (int i=0; i<8; i++){
+            if (white_pos.first + i == black_pos.first && white_pos.second + i == black_pos.second){
+                can_attack_diagonal = true;
+                break;
+            }else if (white_pos.first - i == black_pos.first && white_pos.second - i == black_pos.second){
+                can_attack_diagonal = true;
+                break;
+            }else if (white_pos.first + i == black_pos.first && white_pos.second - i == black_pos.second){
+                can_attack_diagonal = true;
+                break;
+            }else if (white_pos.first - i == black_pos.first && white_pos.second + i == black_pos.second){
+                can_attack_diagonal = true;
+                break;
+            }
+        };
+
+
+        if (can_attack_horizontal || can_attack_vertical || can_attack_diagonal){
             return true;
         }else{
             return false;
@@ -77,6 +95,7 @@ namespace queen_attack
                 }else{
                     chess_board_string += "_";
                 };
+                // add a space after the char except if it's the last char for the row
                 if (k < 7){
                     chess_board_string += " ";
                 };
