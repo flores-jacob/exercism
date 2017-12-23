@@ -14,6 +14,8 @@ namespace queen_attack
             std::pair<int, int> white() const;
             std::pair<int, int> black() const;
 
+            bool can_attack() const;
+
             operator std::string() const;
     };
 
@@ -40,6 +42,26 @@ namespace queen_attack
     std::pair<int, int> chess_board::black() const
     {
         return black_pos;
+    };
+
+    bool chess_board::can_attack() const{
+        bool can_attack_horizontal = false;
+        bool can_attack_vertical = false;
+
+        if (white_pos.first == black_pos.first){
+            can_attack_horizontal = true;
+        };
+
+        if (white_pos.second == black_pos.second){
+            can_attack_vertical = true;
+        };
+
+        if (can_attack_horizontal || can_attack_vertical){
+            return true;
+        }else{
+            return false;
+        };
+
     };
 
     chess_board::operator std::string() const

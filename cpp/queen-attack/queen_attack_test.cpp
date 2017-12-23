@@ -45,7 +45,6 @@ BOOST_AUTO_TEST_CASE(string_representation)
         "_ _ _ _ _ _ _ _\n"};
     BOOST_REQUIRE_EQUAL(expected, static_cast<std::string>(board));
 }
-#if defined(EXERCISM_RUN_ALL_TESTS)
 
 BOOST_AUTO_TEST_CASE(queens_cannot_attack)
 {
@@ -67,6 +66,7 @@ BOOST_AUTO_TEST_CASE(queens_can_attack_when_they_are_on_the_same_column)
 
     BOOST_REQUIRE(board.can_attack());
 }
+#if defined(EXERCISM_RUN_ALL_TESTS)
 
 BOOST_AUTO_TEST_CASE(queens_can_attack_diagonally)
 {
