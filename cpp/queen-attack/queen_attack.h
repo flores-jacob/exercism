@@ -1,4 +1,5 @@
 #include <utility>
+#include <stdexcept>
 
 namespace queen_attack
 {
@@ -21,6 +22,10 @@ namespace queen_attack
     };
     chess_board::chess_board(std::pair<int, int> white_pos_in, std::pair<int, int> black_pos_in)
     {
+        if (white_pos_in == black_pos_in){
+            throw std::domain_error("positions should not be identical");
+        };
+
         white_pos = white_pos_in;
         black_pos = black_pos_in;
     };

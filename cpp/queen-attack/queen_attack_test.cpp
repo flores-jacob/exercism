@@ -23,13 +23,13 @@ BOOST_AUTO_TEST_CASE(initialized_with_specific_positions)
     BOOST_REQUIRE_EQUAL(black.first, board.black().first);
     BOOST_REQUIRE_EQUAL(black.second, board.black().second);
 }
-#if defined(EXERCISM_RUN_ALL_TESTS)
 
 BOOST_AUTO_TEST_CASE(queen_positions_must_be_distinct)
 {
     const auto pos = std::make_pair(3, 7);
     BOOST_REQUIRE_THROW((queen_attack::chess_board{pos, pos}), std::domain_error);
 }
+#if defined(EXERCISM_RUN_ALL_TESTS)
 
 BOOST_AUTO_TEST_CASE(string_representation)
 {
