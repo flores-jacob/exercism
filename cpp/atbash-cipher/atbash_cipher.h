@@ -36,14 +36,18 @@ namespace atbash
         return output_string;
     };
 
-//    std::string decode(std::string input_string){
-//        std::string output_string;
-//
-//        for (char elem: input_string){
-//            int pos = cipher_text.find(elem);
-//            output_string += plain_text.at(pos);
-//        };
-//
-//        return output_string;
-//    };
+    std::string decode(std::string input_string){
+        // remove spaces
+        input_string.erase (std::remove (input_string.begin(), input_string.end(), ' '), input_string.end());
+
+
+        std::string output_string;
+
+        for (char elem: input_string){
+            int pos = cipher_text.find(elem);
+            output_string += plain_text.at(pos);
+        };
+
+        return output_string;
+    };
 };

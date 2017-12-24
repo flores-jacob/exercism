@@ -42,12 +42,12 @@ BOOST_AUTO_TEST_CASE(encode_all_the_letters)
     BOOST_REQUIRE_EQUAL("gsvjf rxpyi ldmul cqfnk hlevi gsvoz abwlt",
                         atbash::encode("The quick brown fox jumps over the lazy dog."));
 }
-#if defined(EXERCISM_RUN_ALL_TESTS)
 
 BOOST_AUTO_TEST_CASE(decode_exercism)
 {
     BOOST_REQUIRE_EQUAL("exercism", atbash::decode("vcvix rhn"));
 }
+#if defined(EXERCISM_RUN_ALL_TESTS)
 
 BOOST_AUTO_TEST_CASE(decode_a_sentence)
 {
