@@ -1,9 +1,9 @@
 #include <string>
 #include <cmath>
-#include <iostream>
 #include <vector>
 #include <algorithm>
 #include <unordered_set>
+
 namespace allergies
 {
     class allergy_test
@@ -20,32 +20,19 @@ namespace allergies
 
     allergy_test::allergy_test(float allergy_score)
     {
-        // discontinue if allergy score is zero
-        if (allergy_score == 0){
-            return;
-        };
-
+        // while total allergy score has not been reduced to zero, continue to reduce it
         while (allergy_score > 0){
             // get the log2 of the score
             float exponent = log2 (allergy_score);
-            // check if this log2 is a whole number.
-            if (floor(exponent) == exponent){
-            // If it is, then the exponent represents the index of the allergy in the masterlist
-                allergen_patientlist.insert(allergen_masterlist.at(exponent));
-            }else if (floor(exponent) != exponent){
-            // If it is not, then round it down, and check what allergy the rounded down index represents
-            // if it represents an allergy, add it to a list of allergens
-                // check first if the index is less than the vector size
-                if (floor(exponent) < allergen_masterlist.size()){
-                    // if it is, then add the identified allergen to the list
-                    allergen_patientlist.insert(allergen_masterlist.at(floor(exponent)));
-                };
 
-//                allergy_score -= allergy_score - pow(2, floor(exponent));
+            // if it represents an allergy, add it to a list of allergens
+            // check first if the index is less than the vector size
+            if (floor(exponent) < allergen_masterlist.size()){
+                // if it is, then add the identified allergen to the list
+                allergen_patientlist.insert(allergen_masterlist.at(floor(exponent)));
             };
-            // subtract this value from the total score, regardless of whether or not the allergen is in the masterlist
+            // subtract the round score from the total allergy score, then loop again
             allergy_score = allergy_score - pow(2, floor(exponent));
-            std::cout << allergy_score << std::endl;
         };
     };
 
