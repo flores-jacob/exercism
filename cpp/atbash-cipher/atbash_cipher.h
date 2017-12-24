@@ -26,7 +26,7 @@ namespace atbash
                 int pos = plain_text.find(elem);
                 output_string += cipher_text.at(pos);
 
-                if (counter % 5 == 0){
+                if (counter % 5 == 0 && output_string.length() < input_lower_case.length()){
                     output_string += " ";
                 };
                 counter += 1;
@@ -35,4 +35,15 @@ namespace atbash
 
         return output_string;
     };
+
+//    std::string decode(std::string input_string){
+//        std::string output_string;
+//
+//        for (char elem: input_string){
+//            int pos = cipher_text.find(elem);
+//            output_string += plain_text.at(pos);
+//        };
+//
+//        return output_string;
+//    };
 };
