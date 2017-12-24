@@ -7,11 +7,11 @@ BOOST_AUTO_TEST_CASE(encode_yes)
     BOOST_REQUIRE_EQUAL("bvh", atbash::encode("yes"));
 }
 
-#if defined(EXERCISM_RUN_ALL_TESTS)
 BOOST_AUTO_TEST_CASE(encode_no)
 {
     BOOST_REQUIRE_EQUAL("ml", atbash::encode("no"));
 }
+#if defined(EXERCISM_RUN_ALL_TESTS)
 
 BOOST_AUTO_TEST_CASE(encode_OMG)
 {
