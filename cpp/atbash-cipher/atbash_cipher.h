@@ -18,10 +18,16 @@ namespace atbash
         input_lower_case.erase (std::remove (input_lower_case.begin(), input_lower_case.end(), ' '), input_lower_case.end());
 
         std::string output_string;
+        int counter = 1;
 
         for (char elem: input_lower_case){
             int pos = plain_text.find(elem);
             output_string += cipher_text.at(pos);
+
+            if (counter % 5 == 0){
+                output_string += " ";
+            };
+            counter += 1;
         };
 
         return output_string;

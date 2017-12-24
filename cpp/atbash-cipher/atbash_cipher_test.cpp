@@ -21,12 +21,12 @@ BOOST_AUTO_TEST_CASE(encode_spaces)
 {
     BOOST_REQUIRE_EQUAL("lnt", atbash::encode("O M G"));
 }
-#if defined(EXERCISM_RUN_ALL_TESTS)
 
 BOOST_AUTO_TEST_CASE(encode_mindblowingly)
 {
     BOOST_REQUIRE_EQUAL("nrmwy oldrm tob", atbash::encode("mindblowingly"));
 }
+#if defined(EXERCISM_RUN_ALL_TESTS)
 
 BOOST_AUTO_TEST_CASE(encode_numbers)
 {
