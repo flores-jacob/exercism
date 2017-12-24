@@ -69,7 +69,6 @@ BOOST_AUTO_TEST_CASE(allergic_to_cats)
    
     BOOST_REQUIRE_EQUAL(true, score.is_allergic_to("cats"));
 }
-#if defined(EXERCISM_RUN_ALL_TESTS)
 
 BOOST_AUTO_TEST_CASE(allergic_to_eggs_and_other_stuff)
 {
@@ -79,6 +78,7 @@ BOOST_AUTO_TEST_CASE(allergic_to_eggs_and_other_stuff)
     BOOST_REQUIRE_EQUAL(true, score.is_allergic_to("shellfish"));
     BOOST_REQUIRE_EQUAL(false, score.is_allergic_to("peanuts"));
 }
+#if defined(EXERCISM_RUN_ALL_TESTS)
 
 BOOST_AUTO_TEST_CASE(allergic_to_nothing)
 {
