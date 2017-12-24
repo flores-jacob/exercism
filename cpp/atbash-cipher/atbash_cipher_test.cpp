@@ -16,12 +16,12 @@ BOOST_AUTO_TEST_CASE(encode_OMG)
 {
     BOOST_REQUIRE_EQUAL("lnt", atbash::encode("OMG"));
 }
-#if defined(EXERCISM_RUN_ALL_TESTS)
 
 BOOST_AUTO_TEST_CASE(encode_spaces)
 {
     BOOST_REQUIRE_EQUAL("lnt", atbash::encode("O M G"));
 }
+#if defined(EXERCISM_RUN_ALL_TESTS)
 
 BOOST_AUTO_TEST_CASE(encode_mindblowingly)
 {

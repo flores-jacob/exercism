@@ -1,5 +1,5 @@
 #include <string>
-
+#include <algorithm>
 namespace atbash
 {
     std::string plain_text = "abcdefghijklmnopqrstuvwxyz";
@@ -13,6 +13,9 @@ namespace atbash
         for (char elem: input_string){
             input_lower_case += std::tolower(elem);
         };
+
+        // remove spaces
+        input_lower_case.erase (std::remove (input_lower_case.begin(), input_lower_case.end(), ' '), input_lower_case.end());
 
         std::string output_string;
 
