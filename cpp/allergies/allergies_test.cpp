@@ -86,7 +86,6 @@ BOOST_AUTO_TEST_CASE(allergic_to_nothing)
 
     BOOST_TEST(no_allergies == score.get_allergies());
 }
-#if defined(EXERCISM_RUN_ALL_TESTS)
 
 BOOST_AUTO_TEST_CASE(allergic_to_only_peanuts)
 {
@@ -126,6 +125,7 @@ BOOST_AUTO_TEST_CASE(allergic_to_lots_of_stuff)
     const std::unordered_set<std::string> lots_of_stuff = {"strawberries", "tomatoes", "chocolate", "pollen", "cats"};
 
     BOOST_TEST(lots_of_stuff == score.get_allergies());
+
 }
 
 BOOST_AUTO_TEST_CASE(allergic_to_everything)
@@ -145,4 +145,6 @@ BOOST_AUTO_TEST_CASE(ignore_non_allergen_score_parts)
 
     BOOST_TEST(non_allergen == score.get_allergies());
 }
+#if defined(EXERCISM_RUN_ALL_TESTS)
+
 #endif
