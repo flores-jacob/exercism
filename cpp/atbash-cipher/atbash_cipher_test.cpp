@@ -47,7 +47,6 @@ BOOST_AUTO_TEST_CASE(decode_exercism)
 {
     BOOST_REQUIRE_EQUAL("exercism", atbash::decode("vcvix rhn"));
 }
-#if defined(EXERCISM_RUN_ALL_TESTS)
 
 BOOST_AUTO_TEST_CASE(decode_a_sentence)
 {
@@ -65,4 +64,6 @@ BOOST_AUTO_TEST_CASE(decode_all_the_letters)
     BOOST_REQUIRE_EQUAL("thequickbrownfoxjumpsoverthelazydog",
                         atbash::decode("gsvjf rxpyi ldmul cqfnk hlevi gsvoz abwlt"));
 }
+#if defined(EXERCISM_RUN_ALL_TESTS)
+
 #endif
