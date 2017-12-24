@@ -26,12 +26,12 @@ BOOST_AUTO_TEST_CASE(encode_mindblowingly)
 {
     BOOST_REQUIRE_EQUAL("nrmwy oldrm tob", atbash::encode("mindblowingly"));
 }
-#if defined(EXERCISM_RUN_ALL_TESTS)
 
 BOOST_AUTO_TEST_CASE(encode_numbers)
 {
     BOOST_REQUIRE_EQUAL("gvhgr mt123 gvhgr mt", atbash::encode("Testing,1 2 3, testing."));
 }
+#if defined(EXERCISM_RUN_ALL_TESTS)
 
 BOOST_AUTO_TEST_CASE(encode_deep_thought)
 {
