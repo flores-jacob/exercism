@@ -3,17 +3,19 @@
 #include <iostream>
 #include <vector>
 #include <algorithm>
+#include <unordered_set>
 namespace allergies
 {
     class allergy_test
     {
         private:
             std::vector<std::string> allergen_masterlist = {"eggs", "peanuts", "shellfish", "strawberries", "tomatoes", "chocolate", "pollen", "cats"};
-            std::vector<std::string> allergen_patientlist;
+            std::unordered_set<std::string> allergen_patientlist;
 
         public:
             allergy_test(float allergy_score);
             bool is_allergic_to(std::string allergen);
+            std::unordered_set<std::string> get_allergies();
     };
 
     allergy_test::allergy_test(float allergy_score)
@@ -29,14 +31,14 @@ namespace allergies
             // check if this log2 is a whole number.
             if (floor(exponent) == exponent){
             // If it is, then the exponent represents the index of the allergy in the masterlist
-                allergen_patientlist.push_back(allergen_masterlist.at(exponent));
+                allergen_patientlist.insert(allergen_masterlist.at(exponent));
             }else if (floor(exponent) != exponent){
             // If it is not, then round it down, and check what allergy the rounded down index represents
             // if it represents an allergy, add it to a list of allergens
                 // check first if the index is less than the vector size
                 if (floor(exponent) < allergen_masterlist.size()){
                     // if it is, then add the identified allergen to the list
-                    allergen_patientlist.push_back(allergen_masterlist.at(floor(exponent)));
+                    allergen_patientlist.insert(allergen_masterlist.at(floor(exponent)));
                 };
 
 //                allergy_score -= allergy_score - pow(2, floor(exponent));
@@ -54,6 +56,10 @@ namespace allergies
         }
 
         return false;
+    };
+
+    std::unordered_set<std::string> allergy_test::get_allergies(){
+        return allergen_patientlist;
     };
 
 };
