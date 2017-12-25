@@ -11,7 +11,6 @@ BOOST_AUTO_TEST_CASE(pangram_with_only_lower_case)
 {
     BOOST_REQUIRE(pangram::is_pangram("the quick brown fox jumps over the lazy dog"));
 }
-#ifdef EXERCISM_RUN_ALL_TESTS
 
 BOOST_AUTO_TEST_CASE(missing_character_x)
 {
@@ -47,4 +46,6 @@ BOOST_AUTO_TEST_CASE(upper_and_lower_should_not_be_counted_seperately)
 {
     BOOST_REQUIRE(!pangram::is_pangram("the quick brown fox jumps over with lazy FX"));
 }
+#ifdef EXERCISM_RUN_ALL_TESTS
+
 #endif
