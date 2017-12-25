@@ -7,11 +7,11 @@ BOOST_AUTO_TEST_CASE(paired_square_brackets)
     BOOST_REQUIRE(bracket_push::check("[]"));
 }
 
-#if defined(EXERCISM_RUN_ALL_TESTS)
 BOOST_AUTO_TEST_CASE(empty_string)
 {
     BOOST_REQUIRE(bracket_push::check(""));
 }
+#if defined(EXERCISM_RUN_ALL_TESTS)
 
 BOOST_AUTO_TEST_CASE(unpaired_brackets)
 {
