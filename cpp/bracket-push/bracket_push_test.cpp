@@ -21,7 +21,6 @@ BOOST_AUTO_TEST_CASE(wrong_ordered_brackets)
 {
     BOOST_REQUIRE(!bracket_push::check("}{"));
 }
-#if defined(EXERCISM_RUN_ALL_TESTS)
 
 BOOST_AUTO_TEST_CASE(wrong_closing_bracket)
 {
@@ -72,4 +71,6 @@ BOOST_AUTO_TEST_CASE(complex_latex_expression)
 {
     BOOST_REQUIRE(bracket_push::check("\\left(\\begin{array}{cc} \\frac{1}{3} & x\\\\ \\mathrm{e}^{x} &... x^2 \\end{array}\\right)"));
 }
+#if defined(EXERCISM_RUN_ALL_TESTS)
+
 #endif
