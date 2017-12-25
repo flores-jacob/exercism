@@ -7,11 +7,11 @@ BOOST_AUTO_TEST_CASE(sentence_empty)
     BOOST_REQUIRE(!pangram::is_pangram(""));
 }
 
-#ifdef EXERCISM_RUN_ALL_TESTS
 BOOST_AUTO_TEST_CASE(pangram_with_only_lower_case)
 {
     BOOST_REQUIRE(pangram::is_pangram("the quick brown fox jumps over the lazy dog"));
 }
+#ifdef EXERCISM_RUN_ALL_TESTS
 
 BOOST_AUTO_TEST_CASE(missing_character_x)
 {
