@@ -1,4 +1,5 @@
 #include <string>
+#include <algorithm>
 
 namespace pangram
 {
@@ -6,5 +7,16 @@ namespace pangram
         if (input.length() == 0){
             return false;
         };
+
+        std::string alphabet_list = "abcdefghijklmnopqrstuvwxyz";
+
+        for (char letter: alphabet_list){
+            if (std::count(input.begin(), input.end(), letter) != 1){
+                return false;
+            };
+        };
+
+        return true;
+
     };
 };
