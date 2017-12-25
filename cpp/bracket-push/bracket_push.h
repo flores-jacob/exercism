@@ -27,6 +27,12 @@ namespace bracket_push
             if (current_char == '(' || current_char == '{' || current_char == '['){
                 bracket_stack.push_back(current_char);
             } else if (current_char == ')' || current_char == '}' || current_char == ']'){
+                // if the bracket_stack is empty, and we start with a closing bracket, then
+                // we return false, as the first bracket has no pair
+                if (bracket_stack.size() == 0){
+                    return false;
+                };
+
                 // get the bracket on top of the stack
                 char top_of_stack = bracket_stack.back();
                 // check if the opening bracket is the same as the closing bracket

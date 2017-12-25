@@ -11,7 +11,6 @@ BOOST_AUTO_TEST_CASE(empty_string)
 {
     BOOST_REQUIRE(bracket_push::check(""));
 }
-#if defined(EXERCISM_RUN_ALL_TESTS)
 
 BOOST_AUTO_TEST_CASE(unpaired_brackets)
 {
@@ -22,6 +21,7 @@ BOOST_AUTO_TEST_CASE(wrong_ordered_brackets)
 {
     BOOST_REQUIRE(!bracket_push::check("}{"));
 }
+#if defined(EXERCISM_RUN_ALL_TESTS)
 
 BOOST_AUTO_TEST_CASE(wrong_closing_bracket)
 {
