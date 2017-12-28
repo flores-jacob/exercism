@@ -1,4 +1,8 @@
 def word_count(phrase):
+    phrase = phrase.replace(',', ' ')
+
+    print (phrase)
+
     result_dict = {}
     words = phrase.split()
     for word in words:
