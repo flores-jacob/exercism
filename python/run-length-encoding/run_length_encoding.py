@@ -10,7 +10,7 @@ def decode(string):
 
     while string_deque:
         current_character = string_deque.popleft()
-        if current_character.isalpha():
+        if not current_character.isdigit():
             decoded_string += current_character
         elif current_character.isdigit():
             count_chars = ""
