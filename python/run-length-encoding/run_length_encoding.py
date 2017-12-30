@@ -30,6 +30,9 @@ def decode(string):
 
 
 def encode(string):
+    if string == '':
+        return ''
+
     encoded_string = ''
 
     string_list = list(string)
