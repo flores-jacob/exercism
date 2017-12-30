@@ -1,7 +1,23 @@
-from collections import OrderedDict
+from collections import deque
 
 def decode(string):
-    pass
+    if not string:
+        return ''
+
+    decoded_string = ''
+
+    string_deque = deque(list(string))
+
+    while string_deque:
+        current_character = string_deque.popleft()
+        if current_character.isalpha():
+            decoded_string += current_character
+        elif current_character.isdigit():
+            count = int(current_character)
+            current_character = string_deque.popleft()
+            decoded_string += current_character * count
+
+    return decoded_string
 
 
 def encode(string):
@@ -27,8 +43,4 @@ def encode(string):
         encoded_string += str(current_count)
     encoded_string += previous_char
 
-
     return encoded_string
-
-
-# mystring = encode('AABBBCCCC'), '2A3B4C'
