@@ -13,9 +13,18 @@ def decode(string):
         if current_character.isalpha():
             decoded_string += current_character
         elif current_character.isdigit():
-            count = int(current_character)
+            count_chars = ""
+            count_chars += current_character
+            # get the next char
             current_character = string_deque.popleft()
-            decoded_string += current_character * count
+            # keep on popping until we get to a letter
+            while current_character.isdigit():
+                count_chars += current_character
+                current_character = string_deque.popleft()
+                # the last character will always be a letter
+
+            # append the character as many times as indicated by count chars
+            decoded_string += current_character * int(count_chars)
 
     return decoded_string
 
