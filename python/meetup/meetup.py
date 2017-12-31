@@ -17,13 +17,15 @@ def meetup_day(year, month, day_of_the_week, which):
         count_req = 3
     elif which == "4th":
         count_req = 4
+    elif which == "5th":
+        count_req = 5
     elif which == "last":
         count_req = -1
     else:
         raise ("Invalid input")
 
     day_count = 0
-    if 1 <= count_req <=4:
+    if 1 <= count_req <=5:
         for day in range(1, 31):
             desired_date = date(year, month, day)
             if calendar.day_name[desired_date.weekday()] == day_of_the_week:
