@@ -30,3 +30,9 @@ def meetup_day(year, month, day_of_the_week, which):
                 day_count += 1
                 if day_count == count_req:
                     return desired_date
+    elif count_req == -1:
+        last_day_of_month = calendar.monthrange(year, month)[1]
+        for day in range(last_day_of_month, 1, -1):
+            desired_date = date(year, month, day)
+            if calendar.day_name[desired_date.weekday()] == day_of_the_week:
+                return desired_date
