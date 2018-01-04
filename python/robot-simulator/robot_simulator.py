@@ -36,3 +36,12 @@ class Robot(object):
         elif self.bearing == 3:
             self.x -= 1
             self.coordinates = (self.x, self.y)
+
+    def simulate(self, move_sequence):
+        for char in move_sequence:
+            if char == "A":
+                self.advance()
+            elif char == "L":
+                self.turn_left()
+            if char == "R":
+                self.turn_right()
