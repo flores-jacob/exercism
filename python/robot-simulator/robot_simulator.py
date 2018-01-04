@@ -9,7 +9,9 @@ SOUTH = 2
 class Robot(object):
     def __init__(self, bearing=NORTH, x=0, y=0):
         self.bearing = bearing
-        self.coordinates = (x, y)
+        self.x = x
+        self.y = y
+        self.coordinates = (self.x, self.y)
 
     def turn_right(self):
         self.bearing += 1
@@ -20,3 +22,17 @@ class Robot(object):
         self.bearing -= 1
         if self.bearing < 0:
             self.bearing = 3
+
+    def advance(self):
+        if self.bearing == 0:
+            self.y += 1
+            self.coordinates = (self.x, self.y)
+        elif self.bearing == 1:
+            self.x += 1
+            self.coordinates = (self.x, self.y)
+        elif self.bearing == 2:
+            self.y -= 1
+            self.coordinates = (self.x, self.y)
+        elif self.bearing == 3:
+            self.x -= 1
+            self.coordinates = (self.x, self.y)
