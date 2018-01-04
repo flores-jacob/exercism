@@ -11,7 +11,10 @@ class Robot(object):
         self.bearing = bearing
         self.x = x
         self.y = y
-        self.coordinates = (self.x, self.y)
+
+    @property
+    def coordinates(self):
+        return (self.x, self.y)
 
     def turn_right(self):
         self.bearing += 1
@@ -26,16 +29,12 @@ class Robot(object):
     def advance(self):
         if self.bearing == 0:
             self.y += 1
-            self.coordinates = (self.x, self.y)
         elif self.bearing == 1:
             self.x += 1
-            self.coordinates = (self.x, self.y)
         elif self.bearing == 2:
             self.y -= 1
-            self.coordinates = (self.x, self.y)
         elif self.bearing == 3:
             self.x -= 1
-            self.coordinates = (self.x, self.y)
 
     def simulate(self, move_sequence):
         for char in move_sequence:
@@ -45,3 +44,4 @@ class Robot(object):
                 self.turn_left()
             if char == "R":
                 self.turn_right()
+
