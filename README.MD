@@ -1,3 +1,5 @@
 # Solutions to exercism.io exercises
 
-C++ : `exercism/cpp`
+### Solution folders
+- C++ : `exercism/cpp`
+- python: `exercism/python`
