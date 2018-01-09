@@ -21,9 +21,11 @@ def encode(plain_text):
 
 
 def decode(ciphered_text):
-    ciphered_text = filter(str.isalnum, ciphered_text)
     plain_text = ""
     for char in ciphered_text:
+        # use this instead so that we only need to go through the loop once
+        if char.isspace():
+            continue
         index = cipher_key.index(char)
         plain_text += plain_key[index]
 
