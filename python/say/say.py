@@ -2,9 +2,6 @@
 from collections import deque
 
 def get_hundreds_text(number):
-    if number <= 0:
-        return "zero"
-
     ones_txt = ["", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine"]
     tens_txt = ["", "", "twenty", "thirty", "forty", "fifty", "sixty", "seventy", "eighty", "ninety"]
     teens_txt = ["ten", "eleven", "twelve", "thirteen", "fourteen", "fifteen", "sixteen", "seventeen", "eighteen",
@@ -17,6 +14,7 @@ def get_hundreds_text(number):
     ones = tens_and_ones - (tens * 10)
 
     if hundreds:
+        print("hundreds",hundreds)
         hundreds_portion = " ".join([ones_txt[hundreds], "hundred"])
     else:
         hundreds_portion = ""
@@ -40,20 +38,35 @@ def get_hundreds_text(number):
 
 
 def say(number):
-    number_str = str(number)
+    if number <= 0:
+        return "zero"
 
-    delimited_list = deque()
-    build_str = ""
-    count = 0
-    for i in range(len(number_str) - 1, -1, -1):
-        count += 1
-        build_str = number_str[i] + build_str
-        if (count == 3) or (i == 0):
-            delimited_list.appendleft(build_str)
-            count = 0
-            build_str = ""
+    billions = number // 1000000000
+    millions = (number - (billions * 1000000000)) // 1000000
+    thousands = (number - (billions * 1000000000) - (millions * 1000000)) // 1000
+    hundreds = number - (billions * 1000000000) - (millions * 1000000) - (thousands * 1000)
 
-    return get_hundreds_text(number)
+    # number_str = str(number)
+    #
+    # delimited_list = deque()
+    # build_str = ""
+    # count = 0
+    # for i in range(len(number_str) - 1, -1, -1):
+    #     count += 1
+    #     build_str = number_str[i] + build_str
+    #     if (count == 3) or (i == 0):
+    #         delimited_list.appendleft(build_str)
+    #         count = 0
+    #         build_str = ""
 
+    number_str_list = []
 
-say(1234567)
+    # if billions:
+    #     number_str_list.extend([get_hundreds_text(billions), " billion"])
+    #
+    if thousands:
+        number_str_list.extend([get_hundreds_text(thousands), "thousand"])
+    if hundreds:
+        print(hundreds)
+        number_str_list.extend([get_hundreds_text(hundreds)])
+    return " ".join(number_str_list)
