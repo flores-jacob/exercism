@@ -11,7 +11,7 @@ def get_hundreds_text(number):
     hundreds = number // 100
     tens_and_ones = number - (hundreds * 100)
     tens = tens_and_ones // 10
-    ones = tens_and_ones - (tens * 10)
+    ones = int(tens_and_ones - (tens * 10))
 
     if hundreds:
         print("hundreds",hundreds)
@@ -22,12 +22,16 @@ def get_hundreds_text(number):
     if 10 <= tens_and_ones <= 19:
         tens_and_ones_portion = teens_txt[ones]
     else:
-        tens_and_ones_portion = []
+        tens_and_ones_portion_list = []
         if tens:
-            tens_and_ones_portion.append(tens_txt[tens])
+            tens_and_ones_portion_list.append(tens_txt[tens])
         if ones:
-            tens_and_ones_portion.append(ones_txt[ones])
-        tens_and_ones_portion = ("-".join(tens_and_ones_portion))
+            tens_and_ones_portion_list.append(ones_txt[ones])
+
+        if tens_and_ones_portion_list:
+            tens_and_ones_portion = ("-".join(tens_and_ones_portion_list))
+        else:
+            tens_and_ones_portion = ""
 
     if hundreds and tens_and_ones:
         in_words = " and ".join([hundreds_portion, tens_and_ones_portion])
@@ -46,27 +50,17 @@ def say(number):
     thousands = (number - (billions * 1000000000) - (millions * 1000000)) // 1000
     hundreds = number - (billions * 1000000000) - (millions * 1000000) - (thousands * 1000)
 
-    # number_str = str(number)
-    #
-    # delimited_list = deque()
-    # build_str = ""
-    # count = 0
-    # for i in range(len(number_str) - 1, -1, -1):
-    #     count += 1
-    #     build_str = number_str[i] + build_str
-    #     if (count == 3) or (i == 0):
-    #         delimited_list.appendleft(build_str)
-    #         count = 0
-    #         build_str = ""
-
     number_str_list = []
 
-    # if billions:
-    #     number_str_list.extend([get_hundreds_text(billions), " billion"])
-    #
+    if billions:
+        number_str_list.extend([get_hundreds_text(billions), "billion"])
+    if millions:
+        number_str_list.extend([get_hundreds_text(millions), "million"])
     if thousands:
         number_str_list.extend([get_hundreds_text(thousands), "thousand"])
-    if hundreds:
-        print(hundreds)
+    if 0 < hundreds < 100 and (thousands or millions or billions):
+        number_str_list.extend(["and", get_hundreds_text(hundreds)])
+    else:
         number_str_list.extend([get_hundreds_text(hundreds)])
-    return " ".join(number_str_list)
+    return " ".join(number_str_list).strip()
+
