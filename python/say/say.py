@@ -14,7 +14,6 @@ def get_hundreds_text(number):
     ones = int(tens_and_ones - (tens * 10))
 
     if hundreds:
-        print("hundreds",hundreds)
         hundreds_portion = " ".join([ones_txt[hundreds], "hundred"])
     else:
         hundreds_portion = ""
