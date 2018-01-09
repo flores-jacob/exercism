@@ -42,8 +42,13 @@ def get_hundreds_text(number):
 
 
 def say(number):
-    if number <= 0:
+    if number == 0:
         return "zero"
+    elif number < 0:
+        raise ValueError("Input value cannot be negative")
+    elif number > 999999999999:
+        raise ValueError("input value should not exceed 999,999,999,999")
+
 
     billions = number // 1000000000
     millions = (number - (billions * 1000000000)) // 1000000
