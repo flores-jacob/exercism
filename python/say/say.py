@@ -25,9 +25,11 @@ def say(number):
         print(teens_txt[ones])
         in_words.extend([teens_txt[ones]])
     else:
+        tens_and_ones_portion = []
         if tens:
-            in_words.extend([tens_txt[tens]])
+            tens_and_ones_portion.append(tens_txt[tens])
         if ones:
-            in_words.extend([ones_txt[ones]])
+            tens_and_ones_portion.append(ones_txt[ones])
+        in_words.append("-".join(tens_and_ones_portion))
 
     return "".join(in_words)
