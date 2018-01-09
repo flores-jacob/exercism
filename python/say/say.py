@@ -63,7 +63,7 @@ def say(number):
 
     number_str_list = []
 
-    # feed each value into the get_hundreds_text function to obtain text equivalent of their chunk
+    # feed each value into the in_words function to obtain text equivalent of their chunk
     # also, append billion, million, or thousand for the respective values
     if billions:
         number_str_list.extend([in_words(billions), "billion"])
