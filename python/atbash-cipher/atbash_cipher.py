@@ -7,26 +7,26 @@ cipher_key = base_key[::-1] + number_key
 def encode(plain_text):
     plain_text = filter(str.isalnum, plain_text.lower())
 
-    cipher_text = ""
+    cipher_text = []
 
     count = 0
     for i in plain_text:
         count += 1
         index = plain_key.index(i)
-        cipher_text += cipher_key[index]
+        cipher_text.append(cipher_key[index])
         if count % 5 == 0:
-            cipher_text += ' '
+            cipher_text.append(' ')
 
-    return cipher_text.strip()
+    return "".join(cipher_text).strip()
 
 
 def decode(ciphered_text):
-    plain_text = ""
+    plain_text = []
     for char in ciphered_text:
         # use this instead so that we only need to go through the loop once
         if char.isspace():
             continue
         index = cipher_key.index(char)
-        plain_text += plain_key[index]
+        plain_text.append(plain_key[index])
 
-    return plain_text
+    return "".join(plain_text)
