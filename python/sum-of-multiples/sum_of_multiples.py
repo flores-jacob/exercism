@@ -1,9 +1,12 @@
 def sum_of_multiples(limit, multiples):
-    multiple_list = []
+    if not multiples:
+        return 0
+
+    multiple_sum = 0
     for i in range(1, limit):
         for multiple in multiples:
             if i % multiple == 0:
-                multiple_list.append(i)
+                multiple_sum += i
                 break
 
-    return sum(multiple_list)
+    return multiple_sum
