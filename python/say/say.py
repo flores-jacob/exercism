@@ -1,5 +1,5 @@
 # python3
-
+from collections import deque
 
 def get_hundreds_text(number):
     if number <= 0:
@@ -40,4 +40,20 @@ def get_hundreds_text(number):
 
 
 def say(number):
+    number_str = str(number)
+
+    delimited_list = deque()
+    build_str = ""
+    count = 0
+    for i in range(len(number_str) - 1, -1, -1):
+        count += 1
+        build_str = number_str[i] + build_str
+        if (count == 3) or (i == 0):
+            delimited_list.appendleft(build_str)
+            count = 0
+            build_str = ""
+
     return get_hundreds_text(number)
+
+
+say(1234567)
