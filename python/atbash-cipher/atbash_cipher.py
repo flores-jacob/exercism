@@ -21,4 +21,10 @@ def encode(plain_text):
 
 
 def decode(ciphered_text):
-    pass
+    ciphered_text = filter(str.isalnum, ciphered_text)
+    plain_text = ""
+    for char in ciphered_text:
+        index = cipher_key.index(char)
+        plain_text += plain_key[index]
+
+    return plain_text
