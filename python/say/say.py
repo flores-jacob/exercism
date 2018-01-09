@@ -18,18 +18,25 @@ def say(number):
     in_words = []
 
     if hundreds:
-        in_words.extend([ones[hundreds], " hundred"])
+        hundreds_portion = " ".join([ones_txt[hundreds], "hundred"])
+    else:
+        hundreds_portion = ""
+
+        # in_words.extend([ones_txt[hundreds], " hundred"])
 
     if 10 <= tens_and_ones <= 19:
-        print(ones)
-        print(teens_txt[ones])
-        in_words.extend([teens_txt[ones]])
+        tens_and_ones_portion = teens_txt[ones]
     else:
         tens_and_ones_portion = []
         if tens:
             tens_and_ones_portion.append(tens_txt[tens])
         if ones:
             tens_and_ones_portion.append(ones_txt[ones])
-        in_words.append("-".join(tens_and_ones_portion))
+        tens_and_ones_portion = ("-".join(tens_and_ones_portion))
+
+    if hundreds and tens_and_ones:
+        in_words = " and ".join([hundreds_portion, tens_and_ones_portion])
+    else:
+        in_words = "".join([hundreds_portion, tens_and_ones_portion])
 
     return "".join(in_words)
