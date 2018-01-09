@@ -1,28 +1,25 @@
 # python3
 
-def say(number):
-    if number == 0:
+
+def get_hundreds_text(number):
+    if number <= 0:
         return "zero"
 
     ones_txt = ["", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine"]
     tens_txt = ["", "", "twenty", "thirty", "forty", "fifty", "sixty", "seventy", "eighty", "ninety"]
     teens_txt = ["ten", "eleven", "twelve", "thirteen", "fourteen", "fifteen", "sixteen", "seventeen", "eighteen",
-             "nineteen"]
+                 "nineteen"]
 
     # floor divide
     hundreds = number // 100
-    tens_and_ones  = number - (hundreds * 100)
+    tens_and_ones = number - (hundreds * 100)
     tens = tens_and_ones // 10
     ones = tens_and_ones - (tens * 10)
-
-    in_words = []
 
     if hundreds:
         hundreds_portion = " ".join([ones_txt[hundreds], "hundred"])
     else:
         hundreds_portion = ""
-
-        # in_words.extend([ones_txt[hundreds], " hundred"])
 
     if 10 <= tens_and_ones <= 19:
         tens_and_ones_portion = teens_txt[ones]
@@ -40,3 +37,7 @@ def say(number):
         in_words = "".join([hundreds_portion, tens_and_ones_portion])
 
     return "".join(in_words)
+
+
+def say(number):
+    return get_hundreds_text(number)
