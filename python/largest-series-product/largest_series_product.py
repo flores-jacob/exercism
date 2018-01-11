@@ -1,6 +1,6 @@
 def largest_product(series, size):
     product = 0
-    for i in range(len(series)):
+    for i in range(len(series) - (size - 1)):
         substring = series[i:i + size]
         current_product = 1
         for element in (list(map(int, substring))):
