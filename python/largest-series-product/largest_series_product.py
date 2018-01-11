@@ -1,4 +1,7 @@
 def largest_product(series, size):
+    if size > len(series):
+        raise ValueError("size should not exceed series length")
+
     product = 0
     for i in range(len(series) - (size - 1)):
         substring = series[i:i + size]
