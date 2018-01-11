@@ -1,5 +1,7 @@
 def largest_product(series, size):
-    if size > len(series):
+    if size < 0:
+        raise ValueError("size cannot be negative")
+    elif size > len(series):
         raise ValueError("size should not exceed series length")
 
     product = 0
