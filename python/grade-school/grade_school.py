@@ -8,3 +8,6 @@ class School(object):
 
     def grade(self, grade_num):
         return self.roster[grade_num]
+
+    def add(self, student_name, grade_number):
+        self.roster[grade_number].add(student_name)
