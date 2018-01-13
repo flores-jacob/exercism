@@ -1,13 +1,11 @@
 def flatten(iterable):
 
-    if type(iterable) is list:
-        if len(iterable) > 0:
-            return flatten(iterable[0]) + (flatten(iterable[1:]))
-        else:
-            return []
-    else:
-        if (iterable is not None) and (iterable != ()):
-            return [iterable]
-        else:
-            return []
+    result = []
 
+    for item in iterable:
+        if isinstance(item, (list, tuple)):
+            result.extend(flatten(item))
+        elif item is not None:
+            result.append(item)
+
+    return result
