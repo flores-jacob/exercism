@@ -1,10 +1,13 @@
 def numeral(number):
     thousands = number // 1000
-    hundreds = (number - (thousands * 1000)) // 100
-    tens = (number - (thousands * 1000) - (hundreds * 100)) // 10
-    ones = number - (thousands * 1000) - (hundreds * 100) - (tens * 10)
+    number %= 1000
+    hundreds = number // 100
+    number %= 100
+    tens = number // 10
+    number %= 10
+    ones = number
 
-    thousands_portion = int(thousands) * "M"
+    thousands_portion = thousands * "M"
 
     hundreds_val_dict = {
         0: "",
