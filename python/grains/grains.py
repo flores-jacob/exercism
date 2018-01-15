@@ -1,6 +1,13 @@
 def on_square(integer_number):
-    pass
+    if (integer_number < 1) or (integer_number > 64):
+        raise ValueError("input square should be between 1 and 64")
+
+    square_val = 1
+    for i in range(2, integer_number + 1):
+        square_val *= 2
+    return square_val
 
 
 def total_after(integer_number):
-    pass
+    if (integer_number < 1) or (integer_number > 64):
+        raise ValueError("input square should be between 1 and 64")
