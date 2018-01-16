@@ -9,9 +9,11 @@ def in_words(number):
 
     # floor divide and get values of hundreds, tens, and ones
     hundreds = number // 100
-    tens_and_ones = number - (hundreds * 100)
+    number %= 100
+    tens_and_ones = number
     tens = tens_and_ones // 10
-    ones = int(tens_and_ones - (tens * 10))
+    number %= 10
+    ones = int(number)
 
     # if we have a value for the hundreds position, prepare the text for it
     if hundreds:
@@ -57,9 +59,12 @@ def say(number):
 
     # compute the values for billions, millions, thousands, and hundreds
     billions = number // 1000000000
-    millions = (number - (billions * 1000000000)) // 1000000
-    thousands = (number - (billions * 1000000000) - (millions * 1000000)) // 1000
-    hundreds = number - (billions * 1000000000) - (millions * 1000000) - (thousands * 1000)
+    number %= 1000000000
+    millions = number // 1000000
+    number %= 1000000
+    thousands = number // 1000
+    number %= 1000
+    hundreds = number
 
     number_str_list = []
 
