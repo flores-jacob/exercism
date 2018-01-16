@@ -8,8 +8,8 @@ def largest_product(series, size):
     for i in range(len(series) - (size - 1)):
         substring = series[i:i + size]
         current_product = 1
-        for element in (list(map(int, substring))):
-            current_product *= element
+        for element in substring:
+            current_product *= int(element)
 
         if current_product > product:
             product = current_product
