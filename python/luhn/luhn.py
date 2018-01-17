@@ -1,32 +1,17 @@
 class Luhn(object):
     def __init__(self, string_input):
         self.string_input = string_input
-        self.preprocessed_input = self.preprocess()
-
-    def preprocess(self):
-        return self.string_input.replace(" ", "")
 
     def is_valid(self):
-        string_len = len(self.preprocessed_input)
+        processed_input = self.string_input.replace(" ", "")
 
-        # check if string length is less than 1
-        if string_len <= 1:
+        # check if string length is less than 1 or string has non digit chars
+        if len(processed_input) <= 1 or (not processed_input.isdigit()):
             return False
 
-        string_sum = 0
-        # Multiply every second digit from the right by two (and subtract
-        # 9 if necessary, then add this to the sum.
-        # For every other digit from the right, just add them to the sum
-        for i in range(string_len):
-            current_char = self.preprocessed_input[string_len - 1 - i]
-            if not current_char.isdigit():
-                return False
-            num_val = int(current_char)
-            if (i + 1) % 2 == 0:
-                num_val *= 2
-                if num_val > 9:
-                    num_val -= 9
-            string_sum += num_val
+        # get sum of digits according to the luhn rules
+        doubles_sum = sum([int(num) * 2 - 9 if int(num) * 2 > 9 else int(num) * 2 for num in processed_input[-2::-2]])
+        singles_sum = sum([int(num) for num in processed_input[-1::-2]])
 
-        # Check if sum is divisible by 10
-        return string_sum % 10 == 0
+        # check if sum is divisible by 10
+        return (doubles_sum + singles_sum) % 10 == 0
