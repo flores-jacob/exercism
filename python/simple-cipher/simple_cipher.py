@@ -13,8 +13,8 @@ class Cipher(object):
         return "".join(encoded_char_list)
 
     def decode(self, text):
-        pass
-
+        decoded_char_list = [Cipher.base_key[self.cipher_key.index(char)] for char in text if char in self.cipher_key]
+        return "".join(decoded_char_list)
 
 class Caesar(Cipher):
     def __init__(self):
