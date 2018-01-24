@@ -1,14 +1,20 @@
 class Cipher(object):
-    def __init__(self, key=None):
-        pass
+    base_key = "abcdefghijklmnopqrstuvwxyz"
+
+    def __init__(self, key="a"):
+        index = Cipher.base_key.index(key)
+        self.cipher_key = Cipher.base_key[index:] + Cipher.base_key[:index]
 
     def encode(self, text):
-        pass
+        lowered_text = text.lower()
+        encoded_char_list = [self.cipher_key[Cipher.base_key.index(char)] for char in lowered_text]
+
+        return "".join(encoded_char_list)
 
     def decode(self, text):
         pass
 
 
-class Caesar(object):
+class Caesar(Cipher):
     def __init__(self):
-        pass
+        Cipher.__init__(self, "d")
