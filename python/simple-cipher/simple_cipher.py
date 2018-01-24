@@ -6,8 +6,9 @@ class Cipher(object):
         self.cipher_key = Cipher.base_key[index:] + Cipher.base_key[:index]
 
     def encode(self, text):
-        lowered_text = text.lower()
-        encoded_char_list = [self.cipher_key[Cipher.base_key.index(char)] for char in lowered_text]
+        cleaned_text = text.lower()
+        cleaned_text = cleaned_text.replace(" ", "")
+        encoded_char_list = [self.cipher_key[Cipher.base_key.index(char)] for char in cleaned_text if char in Cipher.base_key]
 
         return "".join(encoded_char_list)
 
