@@ -23,7 +23,17 @@ class Cipher(object):
         return "".join(encoded_char_list)
 
     def decode(self, text):
-        decoded_char_list = [Cipher.base_key[self.cipher_key.index(char)] for char in text if char in self.cipher_key]
+        decoded_char_list = []
+
+        key_length = len(self.key)
+
+        for i in range(len(text)):
+
+            index = Cipher.base_key.index(self.key[i % key_length])
+            cipher_key = Cipher.base_key[index:] + Cipher.base_key[:index]
+
+            if text[i] in Cipher.base_key:
+                decoded_char_list.append(Cipher.base_key[cipher_key.index(text[i])])
 
         return "".join(decoded_char_list)
 
