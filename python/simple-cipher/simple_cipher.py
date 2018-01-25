@@ -1,7 +1,17 @@
+import random
+
+
 class Cipher(object):
     base_key = "abcdefghijklmnopqrstuvwxyz"
 
-    def __init__(self, key="a"):
+    def __init__(self, key=None):
+        if not key:
+            key_generator = random.Random()
+            key_char_list = [key_generator.choice(Cipher.base_key) for i in range(random.randint(100, 200))]
+            key = "".join(key_char_list)
+        elif not all(char.isalpha() and char.islower()for char in key):
+            raise ValueError("Invalid characters")
+
         self.key = key
 
     def encode(self, text):
@@ -41,7 +51,3 @@ class Cipher(object):
 class Caesar(Cipher):
     def __init__(self):
         Cipher.__init__(self, "d")
-
-
-
-# print(Cipher(key="aadd").encode("aaaa"))
