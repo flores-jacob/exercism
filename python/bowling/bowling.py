@@ -33,6 +33,8 @@ class BowlingGame(object):
             self.current_roll = STRIKE
         elif (self.frames[self.current_frame] == 10) and (self.roll_count == 2):
             self.current_roll = SPARE
+        elif (pins == 10) and (self.roll_count == 2) and (self.current_frame == 9):
+            self.current_roll = STRIKE
         else:
             self.current_roll = OPEN
 
@@ -52,6 +54,13 @@ class BowlingGame(object):
 
         print(self.frames)
 
+        if (self.current_frame == 9) and (self.roll_count == 3):
+            print(self.current_frame, self.roll_count, self.the_roll_before, self.previous_roll, self.current_roll)
+            if (self.the_roll_before == STRIKE) and (self.previous_roll == OPEN) and (pins > 0):
+                raise ValueError("Second roll should be a strike")
+
+
+
         if (self.current_frame != 9) and (self.current_roll == STRIKE):
             # If this is not the final frame, and we have a strike, we
             # end the frame
@@ -59,12 +68,12 @@ class BowlingGame(object):
 
         self.total_rolls += self.roll_count
 
-        if (self.current_frame == 9) and (self.roll_count == 3):
-            # if not ((self.previous_roll == SPARE) or (self.the_roll_before == STRIKE)):
-            #     raise ValueError("First frame must be a strike or previous roll a spare")
-            self.current_frame += 1
+        # if (self.current_frame == 9) and (self.roll_count == 3):
+        #     if not ((self.previous_roll == SPARE) or (self.the_roll_before == STRIKE)):
+        #         raise ValueError("First frame must be a strike or previous roll a spare")
+        #     self.current_frame += 1
 
-        elif self.current_frame != 9:
+        if self.current_frame != 9:
             if self.roll_count == 2:
                 if self.frames[self.current_frame] > 10:
                     raise ValueError("A frame cannot have more than 10 pts")
