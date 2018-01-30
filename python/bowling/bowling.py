@@ -54,12 +54,9 @@ class BowlingGame(object):
 
         print(self.frames)
 
-        if (self.current_frame == 9) and (self.roll_count == 3):
-            print(self.current_frame, self.roll_count, self.the_roll_before, self.previous_roll, self.current_roll)
-            if (self.the_roll_before == STRIKE) and (self.previous_roll == OPEN) and (pins > 0):
-                raise ValueError("Second roll should be a strike")
-
-
+        # if (self.current_frame == 9) and (self.roll_count == 3):
+        #     if (self.the_roll_before == STRIKE) and (self.previous_roll == OPEN) and (pins > 0):
+        #         raise ValueError("Second roll should be a strike")
 
         if (self.current_frame != 9) and (self.current_roll == STRIKE):
             # If this is not the final frame, and we have a strike, we
@@ -79,27 +76,22 @@ class BowlingGame(object):
                     raise ValueError("A frame cannot have more than 10 pts")
                 self.roll_count = 0
                 self.current_frame += 1
+        elif self.current_frame == 9:
+            print(self.current_frame, self.roll_count, self.the_roll_before, self.previous_roll, self.current_roll)
+
+            if self.roll_count == 3 and (self.the_roll_before != STRIKE) and (self.previous_roll != SPARE):
+                raise IndexError("Ten frames already complete")
+
 
         self.the_roll_before = self.previous_roll
         self.previous_roll = self.current_roll
 
-        # if self.current_frame != 9:
-        #     self.the_roll_before = self.previous_roll
-        #     self.previous_roll = self.current_roll
-        #     if self.roll_count == 2:
-        #         if self.frames[self.current_frame] > 10:
-        #             raise ValueError("A frame cannot have more than 10 pts")
-        #         self.roll_count = 0
-        #         self.current_frame += 1
-        # elif (self.current_frame == 9) and (self.roll_count == 3):
-        #     if (self.the_roll_before != STRIKE) and pins > 0:
-        #         raise ValueError("First frame must be a strike")
-        #     self.current_frame += 1
-        # else:
-        #     self.roll_count += 1
-
     def score(self):
         # print(self.frames)
-        # if self.current_frame < 9:
-        #     raise IndexError("Incomplete games cannot be scored")
+        if self.current_frame < 9:
+            raise IndexError("Incomplete games cannot be scored")
+        elif self.current_roll == STRIKE:
+            raise IndexError("Bonus roll for strike has to be rolled first")
+        elif self.current_roll == SPARE:
+            raise IndexError("Bonus roll for spare has to be rolled first")
         return sum(self.frames)
