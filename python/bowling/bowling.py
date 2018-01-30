@@ -52,12 +52,6 @@ class BowlingGame(object):
             if self.the_roll_before == STRIKE:
                 self.frames[self.current_frame - 1] += pins
 
-        print(self.frames)
-
-        # if (self.current_frame == 9) and (self.roll_count == 3):
-        #     if (self.the_roll_before == STRIKE) and (self.previous_roll == OPEN) and (pins > 0):
-        #         raise ValueError("Second roll should be a strike")
-
         if (self.current_frame != 9) and (self.current_roll == STRIKE):
             # If this is not the final frame, and we have a strike, we
             # end the frame
@@ -65,29 +59,30 @@ class BowlingGame(object):
 
         self.total_rolls += self.roll_count
 
-        # if (self.current_frame == 9) and (self.roll_count == 3):
-        #     if not ((self.previous_roll == SPARE) or (self.the_roll_before == STRIKE)):
-        #         raise ValueError("First frame must be a strike or previous roll a spare")
-        #     self.current_frame += 1
-
+        # For frames that are not the final frame, if we have already had 2
+        # rolls, reset the roll count to zero and move on to the next frame
         if self.current_frame != 9:
             if self.roll_count == 2:
                 if self.frames[self.current_frame] > 10:
                     raise ValueError("A frame cannot have more than 10 pts")
                 self.roll_count = 0
                 self.current_frame += 1
+        # Edge cases for the final bonus roll in the final frame
         elif self.current_frame == 9:
-            print(self.current_frame, self.roll_count, self.the_roll_before, self.previous_roll, self.current_roll)
-
-            if self.roll_count == 3 and (self.the_roll_before != STRIKE) and (self.previous_roll != SPARE):
-                raise IndexError("Ten frames already complete")
-
+            if self.roll_count == 3:
+                if (self.the_roll_before != STRIKE) and (self.previous_roll != SPARE):
+                    raise IndexError("Ten frames already complete")
+                elif (self.the_roll_before == STRIKE) and (self.previous_roll == OPEN):
+                    # Subtract the strike value (10) and the previously added
+                    # pin value (pins) to get the standing pins
+                    remaining_pins = self.frames[9] - 10 - pins
+                    if pins > remaining_pins:
+                        raise ValueError("Knocked down pins more than remaining pins")
 
         self.the_roll_before = self.previous_roll
         self.previous_roll = self.current_roll
 
     def score(self):
-        # print(self.frames)
         if self.current_frame < 9:
             raise IndexError("Incomplete games cannot be scored")
         elif self.current_roll == STRIKE:
