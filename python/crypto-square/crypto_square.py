@@ -1,18 +1,14 @@
 from math import ceil, sqrt
 
+
 def encode(plain_text):
     normalized_text = "".join(letter.lower() for letter in plain_text if letter.isalnum())
 
     if not normalized_text:
         return ""
 
-    message_length = len(normalized_text)
-
-    square_root_of_length = message_length ** (1/2.0)
-
-    column_size = int(ceil(square_root_of_length))
-
-    row_size = int(ceil(message_length / column_size))
+    column_size = int(ceil(sqrt(len(normalized_text))))
+    row_size = int(ceil(len(normalized_text)/column_size))
 
     row_elements = [[] for i in range(column_size)]
     for index, letter in enumerate(normalized_text):
