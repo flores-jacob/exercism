@@ -1,10 +1,7 @@
-from math import ceil
+from math import ceil, sqrt
 
 def encode(plain_text):
-    valid_chars = "abcdefghijklmnopqrstuvwxyz1234567890"
-    lower_case_text = plain_text.lower()
-
-    normalized_text = "".join(letter for letter in lower_case_text if letter in valid_chars)
+    normalized_text = "".join(letter.lower() for letter in plain_text if letter.isalnum())
 
     if not normalized_text:
         return ""
