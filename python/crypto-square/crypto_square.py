@@ -6,6 +6,9 @@ def encode(plain_text):
 
     normalized_text = "".join(letter for letter in lower_case_text if letter in valid_chars)
 
+    if not normalized_text:
+        return ""
+
     message_length = len(normalized_text)
 
     square_root_of_length = message_length ** (1/2.0)
@@ -18,7 +21,9 @@ def encode(plain_text):
     for index, letter in enumerate(normalized_text):
         row_elements[index % column_size].append(letter)
 
-    # Pad the last element at the end of the with spaces
-    row_elements[-1].extend(" " * (column_size - len(row_elements[-1])))
+    # Pad the last elements at the end with spaces
+    for row in row_elements:
+        if len(row) < column_size:
+            row.extend(" " * (row_size - len(row)))
 
     return " ".join("".join(row) for row in row_elements)
