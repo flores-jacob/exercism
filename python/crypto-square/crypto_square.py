@@ -17,10 +17,6 @@ def encode(plain_text):
     for index, letter in enumerate(normalized_text):
         row_elements[index % column_size].append(letter)
 
-    # Pad the last elements at the end with spaces
-    for row in row_elements:
-        if len(row) < column_size:
-            row.extend(" " * (row_size - len(row)))
-
-    # Join the elements into a single string
-    return " ".join("".join(row) for row in row_elements)
+    # Join the elements into a single string and justify all rows into
+    # row_size lengths
+    return " ".join("".join(row).ljust(row_size) for row in row_elements)
