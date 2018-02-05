@@ -1,13 +1,13 @@
 // Solution adapted from earlier C++ implentation
 
-pub fn nth(n: i64) -> Result <i64, &'static str>{
+pub fn nth(n: i32) -> Result <i32, &'static str>{
         if n == 0{
             return Err("must request at least the first prime number");
         };
 
-        let mut discovered_primes: Vec<i64> = Vec::new();
+        let mut discovered_primes: Vec<i32> = Vec::new();
 
-        let mut current_int:i64 = 2;
+        let mut current_int:i32 = 2;
 
         let mut divisible:bool;
 
