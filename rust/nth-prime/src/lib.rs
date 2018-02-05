@@ -9,29 +9,16 @@ pub fn nth(n: i32) -> Result <i32, &'static str>{
 
         let mut current_int:i32 = 2;
 
-        let mut divisible:bool;
-
         // while we have not yet discovered up to n prime numbers
         while discovered_primes.len() < n as usize{
-            // assume that current int is not divisible
-            divisible = false;
-            // we loop through each of the primes we have already discovered
-            for &prime in &discovered_primes{
-                // we check if the current int in question is divisible by any of the already discovered ones
-                if current_int % &prime == 0{
-                    divisible = true;
-                    // if it is divisible, then we increase the int count by one
-                    current_int += 1;
-                    // and we move on to the next item in the while loop
-                    break;
-                }
-            };
-            // if current int is not divisible by any of the previously discovered primes
-            // then we add it to the discovered primes vector, and increase current_prime_count by one
-            if divisible == false{
-                discovered_primes.push(current_int);
-            };
-        };
 
+            // if the current integer is not divisible by any of the
+            // previously discovered prime numbers, then it is prime
+            if !discovered_primes.iter().any(|&p| current_int % p == 0){
+                discovered_primes.push(current_int)
+            };
+            current_int += 1;
+        };
+        // return the last prime discovered
         return Ok(discovered_primes[discovered_primes.len() -1]);
 }
