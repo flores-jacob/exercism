@@ -1,5 +1,3 @@
-// Solution adapted from earlier C++ implentation
-
 pub fn nth(n: i32) -> Result <i32, &'static str>{
         if n == 0{
             return Err("must request at least the first prime number");
