@@ -3,13 +3,16 @@ from operator import itemgetter
 
 
 def primitive_triplets(number_in_triplet):
-    m_x_n = number_in_triplet / 2
+    if number_in_triplet % 2 == 0:
+        m_x_n = number_in_triplet / 2
+    else:
+        raise ValueError("Number should be even")
     # generate all pairs of numbers that result to the product of number_in_triplet/2
     # adapted from https://stackoverflow.com/a/5505024
     factor_pairs = ((i, int(m_x_n / i)) for i in range(1, int(m_x_n ** 0.5) + 1) if m_x_n % i == 0)
     # filter the list in such that the greater number minus the lesser number results
     # in an odd difference
-    factor_pairs = filter(lambda x: (max(x) - min(x)) % 2 == 1, factor_pairs)
+    factor_pairs = filter(lambda x: (max(x) - min(x)) % 2 != 0, factor_pairs)
     # Loop through each pair, and check which ones are coprime, make sure arrangement is greater
     # number is the first element, and lesser number is second element
     factor_pairs = (sorted(pair) for pair in factor_pairs if gcd(pair[0], pair[1]) == 1)
@@ -46,6 +49,9 @@ def triplets_in_range(range_start, range_end):
 
 
 def is_triplet(triplet):
-    pass
+    triplet_sets = set()
+    for element in triplet:
+        if element % 2 == 0:
+            triplet_sets = triplet_sets.union(primitive_triplets(element))
 
-print(primitive_triplets(57))
+    return tuple(sorted(list(triplet))) in triplet_sets
