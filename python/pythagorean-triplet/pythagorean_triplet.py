@@ -11,9 +11,15 @@ def primitive_triplets(number_in_triplet):
     # Make sure that the greater factor is element 0, and the lesser
     # factor is element 1
     # Adapted from https://stackoverflow.com/a/5505024
-    factor_pairs = (sorted([i, int(m_x_n / i)], reverse=True) for i in range(1, int(m_x_n ** 0.5) + 1) if m_x_n % i == 0)
+    factor_pairs = (sorted([i, int(m_x_n / i)], reverse=True)
+                    for i in range(1, int(m_x_n ** 0.5) + 1)
+                    if m_x_n % i == 0)
 
-    return set([tuple(sorted([(m ** 2 - n ** 2), number_in_triplet, m ** 2 + n ** 2])) for m, n in factor_pairs if gcd(m, n) == 1])
+    return set(
+        [tuple(sorted([(m ** 2 - n ** 2), number_in_triplet, m ** 2 + n ** 2]))
+         for m, n in factor_pairs
+         if gcd(m, n) == 1]
+    )
 
 
 def triplets_in_range(range_start, range_end):
