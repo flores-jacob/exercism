@@ -49,9 +49,5 @@ def triplets_in_range(range_start, range_end):
 
 
 def is_triplet(triplet):
-    triplet_sets = set()
-    for element in triplet:
-        if element % 2 == 0:
-            triplet_sets = triplet_sets.union(primitive_triplets(element))
-
-    return tuple(sorted(list(triplet))) in triplet_sets
+    sorted_triplet = sorted(triplet)
+    return sorted_triplet[0] ** 2 + sorted_triplet[1] ** 2 == sorted_triplet[2] ** 2
