@@ -1,6 +1,5 @@
 from math import gcd
-from operator import itemgetter
-
+from itertools import combinations
 
 def primitive_triplets(number_in_triplet):
     if number_in_triplet % 2 == 0:
@@ -22,30 +21,7 @@ def primitive_triplets(number_in_triplet):
 
 
 def triplets_in_range(range_start, range_end):
-    # Get all primitive triplets
-    # keep on multiplying each primitive triplet until its max value
-    # exceeds the range end
-    primitive_results = set()
-    max_triplet_val = 0
-    num = range_start
-    while max_triplet_val <= range_end:
-        new_triplets = primitive_triplets(num)
-        if new_triplets:
-            max_triplet_val = max(new_triplets, key=itemgetter(2))[2]
-        if max_triplet_val <= range_end:
-            primitive_results = primitive_results.union(new_triplets)
-        num += 1
-
-    triplet_results = set()
-    for triplet in primitive_results:
-        for multiplier in range(1, range_end):
-            new_triplet = (triplet[0] * multiplier, triplet[1] * multiplier, triplet[2] * multiplier)
-            if new_triplet[2] <= range_end:
-                triplet_results.add(new_triplet)
-            else:
-                break
-
-    return triplet_results
+    return set(triplet for triplet in combinations(range(range_start, range_end + 1), 3) if is_triplet(triplet))
 
 
 def is_triplet(triplet):
