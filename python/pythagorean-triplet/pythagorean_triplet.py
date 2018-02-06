@@ -13,14 +13,7 @@ def primitive_triplets(number_in_triplet):
     # Adapted from https://stackoverflow.com/a/5505024
     factor_pairs = (sorted([i, int(m_x_n / i)], reverse=True) for i in range(1, int(m_x_n ** 0.5) + 1) if m_x_n % i == 0)
 
-    triplet_results = set()
-    for m, n in factor_pairs:
-        if gcd(m, n) != 1:
-            continue
-        triplet = tuple(sorted([(m ** 2 - n ** 2), number_in_triplet, m ** 2 + n ** 2]))
-        triplet_results.add(triplet)
-
-    return triplet_results
+    return set([tuple(sorted([(m ** 2 - n ** 2), number_in_triplet, m ** 2 + n ** 2])) for m, n in factor_pairs if gcd(m, n) == 1])
 
 
 def triplets_in_range(range_start, range_end):
