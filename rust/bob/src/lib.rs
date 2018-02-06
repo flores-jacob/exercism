@@ -8,7 +8,7 @@ pub fn reply(message: &str) -> &str {
     // If there are any uppercase letters, and no lower case letters
     // This is not redundant, as we also have to deal with special chars
     // and whitespace
-    let exclamation: bool = stripped_message.chars().any(|c| c.is_uppercase())
+    let exclamation: bool = stripped_message.chars().any(char::is_uppercase)
         && stripped_message.chars().all(|c| !c.is_lowercase());
 
     if stripped_message.is_empty() {
