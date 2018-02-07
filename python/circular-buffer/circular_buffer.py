@@ -49,4 +49,5 @@ class CircularBuffer(object):
         if self.write_index == self.capacity:
             self.write_index = 0
 
-
+    def clear(self):
+        self.buffer = [None] * self.capacity
