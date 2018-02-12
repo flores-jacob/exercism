@@ -1,5 +1,6 @@
 class Matrix(object):
     def __init__(self, matrix_string):
-        # Solution not really the most readable, but it's concise
-        self.rows = [list(map(int, row.split())) for row in matrix_string.split('\n')]
-        self.columns = list(map(list, (zip(*self.rows))))
+        # Use splitlines() instead of split('\n')
+        self.rows = [list(map(int, row.split())) for row in matrix_string.splitlines()]
+        # Use list comprehension instead of map() for greater readability
+        self.columns = [list(column) for column in zip(*self.rows)]
