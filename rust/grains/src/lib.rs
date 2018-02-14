@@ -5,11 +5,7 @@ pub fn square(s: u32) -> u64 {
         panic!("Square must be between 1 and 64");
     }
 
-    let mut square_val = 1;
-    for _i in 2..s + 1 {
-        square_val *= 2
-    }
-    return square_val
+    return 2u64.pow(s - 1)
 }
 
 pub fn total() -> u64 {
