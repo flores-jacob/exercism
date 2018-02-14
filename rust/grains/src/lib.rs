@@ -9,10 +9,5 @@ pub fn square(s: u32) -> u64 {
 }
 
 pub fn total() -> u64 {
-    let mut total_grains = 0;
-
-    for i in 1..65 {
-        total_grains += square(i)
-    }
-    return total_grains;
+    (1..64 + 1).fold(0, |accumulator, num| accumulator + square(num))
 }
