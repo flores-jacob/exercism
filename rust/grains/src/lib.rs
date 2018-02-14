@@ -1,3 +1,5 @@
+// Answer adapted from my python solution
+
 pub fn square(s: u32) -> u64 {
     if (s < 1) || (s > 64) {
         panic!("Square must be between 1 and 64");
@@ -11,5 +13,10 @@ pub fn square(s: u32) -> u64 {
 }
 
 pub fn total() -> u64 {
-    unimplemented!();
+    let mut total_grains = 0;
+
+    for i in 1..65 {
+        total_grains += square(i)
+    }
+    return total_grains;
 }
