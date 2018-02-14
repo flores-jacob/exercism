@@ -44,7 +44,13 @@ def decode(encoded_message, rails):
     # Basically, we duplicate the encoding process using integers instead
     # Where the integers end up, represents the original position of each
     # element in the encoded message
+    # Create a list of integers to encode
     rng = range(len(encoded_message))
+    # Encode using the fence
     pos = fence_pattern(range(len(encoded_message)), rails)
+    # Combine all elements in a single list
     pos = list(chain.from_iterable(pos))
+    # Loop from 0 to len of message
+    # Locate where the integer is in the encoded pos
+    # Use the same index to pull the correct char from the encoded_message
     return ''.join(encoded_message[pos.index(n)] for n in rng)
