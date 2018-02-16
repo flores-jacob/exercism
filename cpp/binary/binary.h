@@ -13,7 +13,7 @@ namespace binary {
 			// casting char to int value https://stackoverflow.com/a/30727561
 			int current_int = current_char - '0';
 			const int strlen = input.length();
-			int place_value = std::pow(2, strlen - (i + 1));
+			int place_value = 1 << (strlen - (i + 1));
 			decimal_value += current_int * place_value;
 		};
 		return decimal_value;
