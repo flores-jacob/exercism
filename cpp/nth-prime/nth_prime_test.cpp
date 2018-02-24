@@ -31,11 +31,6 @@ BOOST_AUTO_TEST_CASE(weird_case)
     BOOST_REQUIRE_THROW(prime::nth(0), std::domain_error);
 }
 
-BOOST_AUTO_TEST_CASE(zeroth)
-{
-    prime::test_speed();
-}
 #if defined(EXERCISM_RUN_ALL_TESTS)
-
 
 #endif
