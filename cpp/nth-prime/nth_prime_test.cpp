@@ -3,6 +3,7 @@
 #include <boost/test/unit_test.hpp>
 #include <stdexcept>
 
+
 BOOST_AUTO_TEST_CASE(first)
 {
     BOOST_REQUIRE_EQUAL(2, prime::nth(1));
@@ -12,6 +13,8 @@ BOOST_AUTO_TEST_CASE(second)
 {
     BOOST_REQUIRE_EQUAL(3, prime::nth(2));
 }
+
+
 
 BOOST_AUTO_TEST_CASE(sixth)
 {
@@ -27,6 +30,12 @@ BOOST_AUTO_TEST_CASE(weird_case)
 {
     BOOST_REQUIRE_THROW(prime::nth(0), std::domain_error);
 }
+
+BOOST_AUTO_TEST_CASE(zeroth)
+{
+    prime::test_speed();
+}
 #if defined(EXERCISM_RUN_ALL_TESTS)
+
 
 #endif
