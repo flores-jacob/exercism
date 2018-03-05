@@ -13,14 +13,13 @@ def is_paired(input_string):
         if (char == "(") or (char == "[") or (char == "{"):
             bracket_stack.append(char)
         elif (char == ")") or (char == "]") or (char == "}"):
-            # If the bracket_stack is empty, and we start with a closing
-            # bracket, then we return false, as the first bracket has no
-            # pair
-            if len(bracket_stack) == 0:
-                return False
-
             # Get the bracket on top of the stack
-            top_of_stack = bracket_stack.pop()
+            try:
+                top_of_stack = bracket_stack.pop()
+            # If the bracket_stack is empty, then we return false, since
+            # the closing bracket has no opening bracket pair
+            except IndexError:
+                return False
 
             # Check and return if the opening and closing brackets match
             return brackets_match(top_of_stack, char)
