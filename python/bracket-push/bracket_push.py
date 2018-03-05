@@ -25,11 +25,7 @@ def is_paired(input_string):
             # Check and return if the opening and closing brackets match
             return brackets_match(top_of_stack, char)
 
-    # Once done processing the string, and there are unmatched brackets,
-    # then the brackets are asymmetrical and we return false
-    if len(bracket_stack) > 0:
-        return False
-
-    # If the checks above did not detect any irregularities, then all
-    # the brackets match, and we return true
-    return True
+    # Once done processing the string, bracket_stack should be empty
+    # If empty, this means that all brackets have been matched
+    # If not empty, this means that some brackets remain unmatched
+    return bracket_stack == []
