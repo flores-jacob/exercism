@@ -15,6 +15,12 @@ namespace sieve
         // Loop through the each of the elements in the is_prime_list,
         // starting from the number 2
         for (int divisor=2; divisor <= n; divisor++){
+            // If the divisor is a non-prime number, skip and move to the
+            // next divisor
+            if (!is_prime_list[divisor]){
+                continue;
+            };
+
             // Loop through the integers starting from 2 up to n as dividends.
             // Starting with the value of the current divisor * 2,
             // we increment by the value of the divisor, and all dividends
