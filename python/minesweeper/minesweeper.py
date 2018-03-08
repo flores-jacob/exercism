@@ -1,9 +1,16 @@
 def board(input_board_array):
     output_board = []
+    prev_row_len = None
     for row_index, row in enumerate(input_board_array):
         output_row = []
+        row_len = len(row)
+
+        if prev_row_len:
+            if prev_row_len != row_len:
+                raise ValueError("unequal row lengths")
+
         for elem_index, elem in enumerate(row):
-            if elem != "*":
+            if elem == " ":
 
                 if row_index > 0:
                     top_row = input_board_array[row_index - 1]
@@ -25,7 +32,10 @@ def board(input_board_array):
                     output_row.append(str(surrounding_mine_count))
                 else:
                     output_row.append(" ")
-            else:
+            elif elem == "*":
                 output_row.append("*")
+            else:
+                raise ValueError("Invalid character")
         output_board.append("".join(output_row))
+        prev_row_len = row_len
     return output_board
