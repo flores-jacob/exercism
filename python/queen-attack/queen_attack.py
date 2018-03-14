@@ -8,7 +8,13 @@ class Queen(object):
 
     def can_attack(self, another_queen):
 
-        if (self.row == another_queen.row) or (self.column == another_queen.column):
+        if (self.row == another_queen.row) and (self.column == another_queen.column):
+            raise ValueError("Both queens occupy the same place")
+
+        diff_row = abs(self.row - another_queen.row)
+        diff_column = abs(self.column - another_queen.column)
+
+        if (diff_column == 0) or (diff_row == 0) or (diff_row == diff_column):
             return True
         else:
             return False
