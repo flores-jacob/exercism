@@ -5,8 +5,17 @@ def calculate(question):
 
     for index, word in enumerate(split_question):
         if (word == "plus") or (word == "minus"):
+            offset = 1
+        elif (word == "multiplied") or (word == "divided"):
+            offset = 2
+        elif word == "raised":
+            offset = 4
+        else:
+            offset = None
+
+        if offset:
             num1 = split_question[index - 1]
-            num2 = split_question[index + 1].rstrip("?")
+            num2 = split_question[index + offset].rstrip("?").rstrip("st").rstrip("nd").rstrip("rd").rstrip("th")
 
             if word == "plus":
                 if answer:
@@ -18,10 +27,7 @@ def calculate(question):
                     answer -= int(num2)
                 else:
                     answer = int(num1) - int(num2)
-        elif (word == "multiplied") or (word == "divided"):
-            num1 = split_question[index - 1]
-            num2 = split_question[index + 2].rstrip("?")
-            if word == "multiplied":
+            elif word == "multiplied":
                 if answer:
                     answer *= int(num2)
                 else:
@@ -31,14 +37,11 @@ def calculate(question):
                     answer /= int(num2)
                 else:
                     answer = int(num1) / int(num2)
-        elif word == "raised":
-            num1 = split_question[index - 1]
-            num2 = split_question[index + 4].rstrip("st").rstrip("nd").rstrip("rd").rstrip("th")
-
-            if answer:
-                answer **= int(num2)
-            else:
-                answer = int(num1) ** int(num2)
+            elif word == "raised":
+                if answer:
+                    answer **= int(num2)
+                else:
+                    answer = int(num1) ** int(num2)
 
     if answer is not None:
         return answer
