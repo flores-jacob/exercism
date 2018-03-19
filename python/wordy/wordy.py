@@ -6,6 +6,13 @@ def calculate(question):
         'divided': lambda a, b: a / b,
         'raised': lambda a, b: a ** b,
     }
+    offsets = {
+        'plus': 1,
+        'minus': 1,
+        'multiplied': 2,
+        'divided': 2,
+        'raised': 4,
+    }
 
     split_question = question.split()
 
@@ -17,21 +24,12 @@ def calculate(question):
         if word.lstrip("-").rstrip("?").isdigit():
             operand_count += 1
 
-        if (word == "plus") or (word == "minus"):
-            offset = 1
-        elif (word == "multiplied") or (word == "divided"):
-            offset = 2
-        elif word == "raised":
-            offset = 4
-        else:
-            offset = None
-
-        if offset:
+        if word in offsets.keys():
             operator_count += 1
 
             try:
                 num1 = int(split_question[index - 1])
-                num2 = int(split_question[index + offset].rstrip("?").rstrip("st").rstrip("nd").rstrip("rd").rstrip("th"))
+                num2 = int(split_question[index + offsets[word]].rstrip("?").rstrip("st").rstrip("nd").rstrip("rd").rstrip("th"))
             except:
                 raise ValueError("Missing operand")
 
