@@ -1,4 +1,12 @@
 def calculate(question):
+    operation = {
+        'plus': lambda a, b: a + b,
+        'minus': lambda a, b: a - b,
+        'multiplied': lambda a, b: a * b,
+        'divided': lambda a, b: a / b,
+        'raised': lambda a, b: a ** b,
+    }
+
     split_question = question.split()
 
     answer = None
@@ -20,29 +28,17 @@ def calculate(question):
 
         if offset:
             operator_count += 1
-            num1 = split_question[index - 1]
-            num2 = split_question[index + offset].rstrip("?").rstrip("st").rstrip("nd").rstrip("rd").rstrip("th")
 
             try:
-                int(num1) and int(num2)
+                num1 = int(split_question[index - 1])
+                num2 = int(split_question[index + offset].rstrip("?").rstrip("st").rstrip("nd").rstrip("rd").rstrip("th"))
             except:
                 raise ValueError("Missing operand")
 
-            if word == "plus":
-                operator = "+"
-            elif word == "minus":
-                operator = "-"
-            elif word == "multiplied":
-                operator = "*"
-            elif word == "divided":
-                operator = "/"
-            elif word == "raised":
-                operator = "**"
-
             if answer:
-                answer = eval(str(answer) + operator + num2)
+                answer = operation[word](answer, num2)
             else:
-                answer = eval(num1 + operator + num2)
+                answer = operation[word](num1, num2)
 
     if operand_count != operator_count + 1:
         raise ValueError("missing operator")
