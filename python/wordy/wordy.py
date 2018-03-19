@@ -31,5 +31,16 @@ def calculate(question):
                     answer /= int(num2)
                 else:
                     answer = int(num1) / int(num2)
+        elif word == "raised":
+            num1 = split_question[index - 1]
+            num2 = split_question[index + 4].rstrip("st").rstrip("nd").rstrip("rd").rstrip("th")
 
-    return answer
+            if answer:
+                answer **= int(num2)
+            else:
+                answer = int(num1) ** int(num2)
+
+    if answer is not None:
+        return answer
+    else:
+        raise ValueError("Improper question")
