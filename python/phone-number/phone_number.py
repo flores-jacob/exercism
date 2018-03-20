@@ -13,8 +13,15 @@ class Phone(object):
                 or (number_list[3] in "01"):
             raise ValueError("Invalid phone number")
 
-        self.number = "".join(number_list)
-        self.area_code = self.number[0: 3]
+        self._number = "".join(number_list)
+
+    @property
+    def number(self):
+        return self._number
+
+    @property
+    def area_code(self):
+        return self.number[0: 3]
 
     def pretty(self):
         return "({}) {}-{}".format(self.area_code, self.number[3:6], self.number[6:])
