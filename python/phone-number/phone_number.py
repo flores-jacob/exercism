@@ -14,3 +14,7 @@ class Phone(object):
             raise ValueError("Invalid phone number")
 
         self.number = "".join(number_list)
+        self.area_code = self.number[0: 3]
+
+    def pretty(self):
+        return "".join(["(", self.area_code, ") ", self.number[3:6], "-", self.number[6:]])
