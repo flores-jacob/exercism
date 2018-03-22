@@ -37,6 +37,7 @@ def recite(start_verse, end_verse):
 
     for i in range(start_verse - 1, end_verse):
         song.extend(_construct_stanza(i))
+        song.append("")
 
-    return song
+    return song[:-1]
 
