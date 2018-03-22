@@ -49,29 +49,38 @@ def convert(input_grid):
          "   "]
     ]
 
+    num_horizontal_sets = int(len(input_grid)/4)
+
     num_chunks = int(len(input_grid[0]) / 3)
 
-    chunk_list = []
+    horizontal_set_list = []
 
-    for num_chunk in range(num_chunks):
+    for num_horizontal_set in range(num_horizontal_sets):
+        horizontal_set = input_grid[4 * num_horizontal_set: (4 * num_horizontal_set) + 4]
 
-        beginning_index = 3 * num_chunk
-        end_index = beginning_index + 3
+        chunk_list = []
 
-        chunk = [
-            "".join([char for char in input_grid[0][beginning_index:end_index]]),
-            "".join([char for char in input_grid[1][beginning_index:end_index]]),
-            "".join([char for char in input_grid[2][beginning_index:end_index]]),
-            "".join([char for char in input_grid[3][beginning_index:end_index]])
-        ]
+        for num_chunk in range(num_chunks):
 
-        chunk_val = "?"
+            beginning_index = 3 * num_chunk
+            end_index = beginning_index + 3
 
-        for index, chunk_candidate in enumerate(chunk_reference):
-            if chunk_candidate == chunk:
-                chunk_val = str(index)
-                break
+            chunk = [
+                "".join([char for char in horizontal_set[0][beginning_index:end_index]]),
+                "".join([char for char in horizontal_set[1][beginning_index:end_index]]),
+                "".join([char for char in horizontal_set[2][beginning_index:end_index]]),
+                "".join([char for char in horizontal_set[3][beginning_index:end_index]])
+            ]
 
-        chunk_list.append(chunk_val)
+            chunk_val = "?"
 
-    return "".join(chunk_list)
+            for index, chunk_candidate in enumerate(chunk_reference):
+                if chunk_candidate == chunk:
+                    chunk_val = str(index)
+                    break
+
+            chunk_list.append(chunk_val)
+
+        horizontal_set_list.append("".join(chunk_list))
+
+    return ",".join(horizontal_set_list)
