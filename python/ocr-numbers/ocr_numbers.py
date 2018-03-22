@@ -14,6 +14,38 @@ def convert(input_grid):
         ["   ",
          "  |",
          "  |",
+         "   "],
+        [" _ ",
+         " _|",
+         "|_ ",
+         "   "],
+        [" _ ",
+         " _|",
+         " _|",
+         "   "],
+        ["   ",
+         "|_|",
+         "  |",
+         "   "],
+        [" _ ",
+         "|_ ",
+         " _|",
+         "   "],
+        [" _ ",
+         "|_ ",
+         "|_|",
+         "   "],
+        [" _ ",
+         "  |",
+         "  |",
+         "   "],
+        [" _ ",
+         "|_|",
+         "|_|",
+         "   "],
+        [" _ ",
+         "|_|",
+         " _|",
          "   "]
     ]
 
@@ -32,8 +64,6 @@ def convert(input_grid):
             "".join([char for char in input_grid[2][beginning_index:end_index]]),
             "".join([char for char in input_grid[3][beginning_index:end_index]])
         ]
-
-        print(chunk)
 
         chunk_val = "?"
 
