@@ -7,7 +7,16 @@ Pair = namedtuple('Pair', ['subject', 'action'])
 pair_list = [
     Pair('malt', 'lay in'),
     Pair('rat', 'ate'),
-    Pair('cat', 'killed')
+    Pair('cat', 'killed'),
+    Pair('dog', 'worried'),
+    Pair('cow with the crumpled horn', 'tossed'),
+    Pair('maiden all forlorn', 'milked'),
+    Pair('man all tattered and torn', 'kissed'),
+    Pair('priest all shaven and shorn', 'married'),
+    Pair('rooster that crowed in the morn', 'woke'),
+    Pair('farmer sowing his corn', 'kept'),
+    Pair('horse and the hound and the horn', 'belonged to'),
+
 ]
 
 
