@@ -24,4 +24,7 @@ def is_isosceles(sides):
 
 
 def is_scalene(sides):
-    pass
+    if is_valid_triangle(sides):
+        return (sides[0] != sides[1]) and (sides[0] != sides[2]) and (sides[1] != sides[2])
+    else:
+        return False
