@@ -1,5 +1,12 @@
 NODE, EDGE, ATTR = range(3)
 
+TYPE = 0
+
+NODE_NAME, NODE_ATTR = 1, 2
+
+EDGE_SRC, EDGE_DST, EDGE_ATTR = 1, 2, 3
+
+
 
 class Node(object):
     def __init__(self, name, attrs={}):
@@ -24,4 +31,12 @@ class Edge(object):
 
 class Graph(object):
     def __init__(self, data=[]):
-        pass
+        self.nodes = []
+        self.edges = []
+        self.attrs = {}
+
+        for element in data:
+            if element[TYPE] == NODE:
+                self.nodes.append(Node(element[NODE_NAME], element[NODE_ATTR]))
+            elif element[TYPE] == EDGE:
+                self.edges.append(Edge(element[EDGE_SRC], element[EDGE_DST], element[EDGE_ATTR]))
