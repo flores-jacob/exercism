@@ -47,7 +47,7 @@ class Graph(object):
                 raise ValueError("Unknown element")
             # Raise an error if the number of parameters is incorrect
             elif len(params) != correct_num_of_parameters[type]:
-                raise ValueError("Malformed input")
+                raise ValueError("Incorrect number of parameters")
 
             # Otherwise, add it to the graph
             if type == NODE:
