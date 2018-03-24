@@ -65,5 +65,3 @@ class Graph(object):
                 self.edges.append(Edge(element[EDGE_SRC], element[EDGE_DST], element[EDGE_ATTR]))
             elif type == ATTR:
                 self.attrs[element[ATTR_NAME]] = element[ATTR_VAL]
-            else:
-                raise TypeError("Malformed graph")
