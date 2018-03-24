@@ -5,7 +5,7 @@ EDGE_SRC, EDGE_DST, EDGE_ATTR = 1, 2, 3
 ATTR_NAME, ATTR_VAL = 1, 2
 
 TYPE_INDEX = 0
-num_parameters = {NODE: 3, EDGE: 4, ATTR: 3}
+correct_num_of_parameters = {NODE: 2, EDGE: 3, ATTR: 2}
 
 
 class Node(object):
@@ -44,20 +44,18 @@ class Graph(object):
             if len(element) < 2:
                 raise TypeError("Improper element")
 
-            # Get the type of the element
-            type = element[TYPE_INDEX]
+            # Get the type of the element, and the parameters
+            type, *params = element
 
             # Raise error if type is unknown
             if type not in [NODE, EDGE, ATTR]:
                 raise ValueError("Unknown element")
-
-            correct_num_parameters = num_parameters[type]
-
             # Raise an error if the number of parameters is incorrect
-            if len(element) != correct_num_parameters:
+            elif len(params) != correct_num_of_parameters[type]:
                 raise ValueError("Malformed input")
+
             # Otherwise, add it to the graph
-            elif type == NODE:
+            if type == NODE:
                 self.nodes.append(Node(element[NODE_NAME], element[NODE_ATTR]))
             elif type == EDGE:
                 self.edges.append(Edge(element[EDGE_SRC], element[EDGE_DST], element[EDGE_ATTR]))
