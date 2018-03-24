@@ -10,21 +10,22 @@ def is_valid_triangle(sides):
 
 
 def is_equilateral(sides):
-    if is_valid_triangle(sides):
-        return (sides[0] == sides[1]) and (sides[1] == sides[2])
-    else:
-        return False
+    return is_valid_triangle(sides) \
+           and (sides[0] == sides[1]) \
+           and (sides[1] == sides[2])
 
 
 def is_isosceles(sides):
-    if is_valid_triangle(sides):
-        return (sides[0] == sides[1]) or (sides[0] == sides[2]) or (sides[1] == sides[2])
-    else:
-        return False
+    return is_valid_triangle(sides) \
+           and (
+                   (sides[0] == sides[1])
+                   or (sides[0] == sides[2])
+                   or (sides[1] == sides[2])
+           )
 
 
 def is_scalene(sides):
-    if is_valid_triangle(sides):
-        return (sides[0] != sides[1]) and (sides[0] != sides[2]) and (sides[1] != sides[2])
-    else:
-        return False
+    return is_valid_triangle(sides) \
+           and (sides[0] != sides[1]) \
+           and (sides[0] != sides[2]) \
+           and (sides[1] != sides[2])
