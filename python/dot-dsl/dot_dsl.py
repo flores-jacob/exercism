@@ -1,12 +1,11 @@
 NODE, EDGE, ATTR = range(3)
 
-TYPE = 0
-
 NODE_NAME, NODE_ATTR = 1, 2
-
 EDGE_SRC, EDGE_DST, EDGE_ATTR = 1, 2, 3
-
 ATTR_NAME, ATTR_VAL = 1, 2
+
+TYPE_INDEX = 0
+num_parameters = {NODE: 3, EDGE: 4, ATTR: 3}
 
 
 class Node(object):
@@ -31,30 +30,32 @@ class Edge(object):
 
 
 class Graph(object):
+    func_list = [Node, Edge]
+
     def __init__(self, data=[]):
         self.nodes = []
         self.edges = []
         self.attrs = {}
 
         for element in data:
+
             if len(element) < 2:
                 raise TypeError("Improper element")
-            elif element[TYPE] == NODE:
-                if len(element) == 3:
-                    self.nodes.append(Node(element[NODE_NAME], element[NODE_ATTR]))
-                else:
-                    raise ValueError("Malformed Node input")
-            elif element[TYPE] == EDGE:
-                if len(element) == 4:
-                    self.edges.append(Edge(element[EDGE_SRC], element[EDGE_DST], element[EDGE_ATTR]))
-                else:
-                    raise ValueError("Malformed Edge input")
-            elif element[TYPE] == ATTR:
-                if len(element) == 3:
-                    self.attrs[element[ATTR_NAME]] = element[ATTR_VAL]
-                else:
-                    raise ValueError("Malformed Attribute input")
-            elif not (0 <= element[TYPE] <= 2):
-                raise ValueError("Unknown item")
+
+            type = element[TYPE_INDEX]
+
+            try:
+                correct_num_parameters = num_parameters[type]
+            except KeyError:
+                raise ValueError("Unknown element")
+
+            if len(element) != correct_num_parameters:
+                raise ValueError("Malformed input")
+            elif type == NODE:
+                self.nodes.append(Node(element[NODE_NAME], element[NODE_ATTR]))
+            elif type == EDGE:
+                self.edges.append(Edge(element[EDGE_SRC], element[EDGE_DST], element[EDGE_ATTR]))
+            elif type == ATTR:
+                self.attrs[element[ATTR_NAME]] = element[ATTR_VAL]
             else:
                 raise TypeError("Malformed graph")
