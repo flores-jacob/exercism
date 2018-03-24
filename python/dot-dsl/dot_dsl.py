@@ -37,13 +37,24 @@ class Graph(object):
         self.attrs = {}
 
         for element in data:
-            if len(element < 2):
+            if len(element) < 2:
                 raise TypeError("Improper element")
             elif element[TYPE] == NODE:
-                self.nodes.append(Node(element[NODE_NAME], element[NODE_ATTR]))
+                if len(element) == 3:
+                    self.nodes.append(Node(element[NODE_NAME], element[NODE_ATTR]))
+                else:
+                    raise ValueError("Malformed Node input")
             elif element[TYPE] == EDGE:
-                self.edges.append(Edge(element[EDGE_SRC], element[EDGE_DST], element[EDGE_ATTR]))
+                if len(element) == 4:
+                    self.edges.append(Edge(element[EDGE_SRC], element[EDGE_DST], element[EDGE_ATTR]))
+                else:
+                    raise ValueError("Malformed Edge input")
             elif element[TYPE] == ATTR:
-                self.attrs[element[ATTR_NAME]] = element[ATTR_VAL]
+                if len(element) == 3:
+                    self.attrs[element[ATTR_NAME]] = element[ATTR_VAL]
+                else:
+                    raise ValueError("Malformed Attribute input")
+            elif not (0 <= element[TYPE] <= 2):
+                raise ValueError("Unknown item")
             else:
                 raise TypeError("Malformed graph")
