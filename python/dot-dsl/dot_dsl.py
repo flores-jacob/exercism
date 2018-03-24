@@ -6,6 +6,7 @@ NODE_NAME, NODE_ATTR = 1, 2
 
 EDGE_SRC, EDGE_DST, EDGE_ATTR = 1, 2, 3
 
+ATTR_NAME, ATTR_VAL = 1, 2
 
 
 class Node(object):
@@ -40,3 +41,5 @@ class Graph(object):
                 self.nodes.append(Node(element[NODE_NAME], element[NODE_ATTR]))
             elif element[TYPE] == EDGE:
                 self.edges.append(Edge(element[EDGE_SRC], element[EDGE_DST], element[EDGE_ATTR]))
+            elif element[TYPE] == ATTR:
+                self.attrs[element[ATTR_NAME]] = element[ATTR_VAL]
