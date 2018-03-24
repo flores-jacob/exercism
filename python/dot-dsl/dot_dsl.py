@@ -37,20 +37,28 @@ class Graph(object):
         self.edges = []
         self.attrs = {}
 
+        # Loop through each element in the graph
         for element in data:
 
+            # If the element only has 0 or 1 element, then it is improper
             if len(element) < 2:
                 raise TypeError("Improper element")
 
+            # Get the type of the element
             type = element[TYPE_INDEX]
 
+            # Try to get the correct number of parameters for the element
             try:
                 correct_num_parameters = num_parameters[type]
+            # Raise an error if the element does not have a corresponding
+            # correct count of parameters
             except KeyError:
                 raise ValueError("Unknown element")
 
+            # Raise an error if the number of parameters is incorrect
             if len(element) != correct_num_parameters:
                 raise ValueError("Malformed input")
+            # Otherwise, add it to the graph
             elif type == NODE:
                 self.nodes.append(Node(element[NODE_NAME], element[NODE_ATTR]))
             elif type == EDGE:
