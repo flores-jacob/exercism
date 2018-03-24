@@ -40,20 +40,20 @@ class Graph(object):
                 raise TypeError("Improper element")
 
             # Get the type of the element, and the parameters
-            type, *params = element
+            element_type, *params = element
 
             # Raise error if type is unknown
-            if type not in [NODE, EDGE, ATTR]:
+            if element_type not in [NODE, EDGE, ATTR]:
                 raise ValueError("Unknown element")
             # Raise an error if the number of parameters is incorrect
-            elif len(params) != correct_num_of_parameters[type]:
+            elif len(params) != correct_num_of_parameters[element_type]:
                 raise ValueError("Incorrect number of parameters")
 
             # Otherwise, add it to the graph
-            if type == NODE:
+            if element_type == NODE:
                 self.nodes.append(Node(*params))
-            elif type == EDGE:
+            elif element_type == EDGE:
                 self.edges.append(Edge(*params))
-            elif type == ATTR:
+            elif element_type == ATTR:
                 attr_name, value = params
                 self.attrs[attr_name] = value
