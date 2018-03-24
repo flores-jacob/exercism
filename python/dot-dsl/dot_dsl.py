@@ -1,10 +1,5 @@
 NODE, EDGE, ATTR = range(3)
 
-NODE_NAME, NODE_ATTR = 1, 2
-EDGE_SRC, EDGE_DST, EDGE_ATTR = 1, 2, 3
-ATTR_NAME, ATTR_VAL = 1, 2
-
-TYPE_INDEX = 0
 correct_num_of_parameters = {NODE: 2, EDGE: 3, ATTR: 2}
 
 
@@ -56,8 +51,9 @@ class Graph(object):
 
             # Otherwise, add it to the graph
             if type == NODE:
-                self.nodes.append(Node(element[NODE_NAME], element[NODE_ATTR]))
+                self.nodes.append(Node(*params))
             elif type == EDGE:
-                self.edges.append(Edge(element[EDGE_SRC], element[EDGE_DST], element[EDGE_ATTR]))
+                self.edges.append(Edge(*params))
             elif type == ATTR:
-                self.attrs[element[ATTR_NAME]] = element[ATTR_VAL]
+                attr_name, value = params
+                self.attrs[attr_name] = value
