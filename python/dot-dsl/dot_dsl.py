@@ -47,13 +47,11 @@ class Graph(object):
             # Get the type of the element
             type = element[TYPE_INDEX]
 
-            # Try to get the correct number of parameters for the element
-            try:
-                correct_num_parameters = num_parameters[type]
-            # Raise an error if the element does not have a corresponding
-            # correct count of parameters
-            except KeyError:
+            # Raise error if type is unknown
+            if type not in [NODE, EDGE, ATTR]:
                 raise ValueError("Unknown element")
+
+            correct_num_parameters = num_parameters[type]
 
             # Raise an error if the number of parameters is incorrect
             if len(element) != correct_num_parameters:
