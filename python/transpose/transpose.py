@@ -7,29 +7,18 @@ def transpose(input_lines):
     # This will serve as the number of rows
     max_row_len = max((len(row) for row in input_rows))
 
+    # Prepare all candidate blank rows and blank elements
     output = []
+    for output_row in range(max_row_len):
+        output.append([' ' for _ in input_rows])
 
     # Loop through each row from the input
-    for input_row in input_rows:
-        # Loop through each char using an index
-        for index in range(max_row_len):
-            # Get each char in the row
-            # If row is too short, char is assigned as a " "
-            try:
-                char = input_row[index]
-            except IndexError:
-                char = " "
+    # Assign each char into its transposed location
+    for input_row_index, input_row in enumerate(input_rows):
+        for char_index, char in enumerate(input_row):
+            output[char_index][input_row_index] = char
 
-            # Append the char to the output list using the appropriate
-            # index
-            try:
-                output[index].append(char)
-            # If char is not appendable due to non existent list element,
-            # we append the list element
-            except IndexError:
-                output.append([char])
-
-    # Convert the list elements into strings iin the output list
+    # Convert the list elements into strings in the output list
     concatenated_rows = ["".join(output_row) for output_row in output]
 
     # This will represent the max length of the strings we have encountered
