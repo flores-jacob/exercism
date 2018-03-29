@@ -1,5 +1,6 @@
+bracket_dict = {"(": ")", "[": "]", "{": "}"}
+
 def brackets_match(opening_bracket, closing_bracket):
-    bracket_dict = {"(": ")", "[": "]", "{": "}"}
     return bracket_dict[opening_bracket] == closing_bracket
 
 
@@ -10,9 +11,9 @@ def is_paired(input_string):
     # bracket on top of the stack
     for char in input_string:
         # If we encounter an opening bracket, we add it on top of the stack
-        if (char == "(") or (char == "[") or (char == "{"):
+        if char in bracket_dict.keys():
             bracket_stack.append(char)
-        elif (char == ")") or (char == "]") or (char == "}"):
+        elif char in bracket_dict.values():
             # Get the bracket on top of the stack
             try:
                 top_of_stack = bracket_stack.pop()
