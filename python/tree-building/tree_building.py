@@ -1,3 +1,6 @@
+from collections import deque
+
+
 class Record():
     def __init__(self, record_id, parent_id):
         self.record_id = record_id
@@ -7,7 +10,7 @@ class Record():
 class Node():
     def __init__(self, node_id):
         self.node_id = node_id
-        self.children = []
+        self.children = deque()
 
     def __str__(self):
         return "id: " + str(self.node_id) + "\n\tchildren: " + str([str(child.node_id) for child in self.children])
@@ -39,8 +42,7 @@ def BuildTree(records):
 
         last_node = tree.pop()
 
-        tree[record.parent_id].children.append(last_node)
-        tree[record.parent_id].children.sort(key=lambda x: x.node_id)
+        tree[record.parent_id].children.appendleft(last_node)
 
     if len(tree) != 1:
         raise ValueError("Records has unconnected elements")
