@@ -1,4 +1,5 @@
 import unittest
+import time
 
 from tree_building import Record, BuildTree
 
@@ -101,6 +102,14 @@ class TestBuildingTest(unittest.TestCase):
         self.assert_node_is_leaf(root.children[0].children[1], 4)
         self.assert_node_is_leaf(root.children[0].children[2], 5)
         self.assert_node_is_leaf(root.children[1].children[0], 6)
+
+    def test_unbalanced_tree_multiple(self):
+        t0 = time.time()
+        for i in range(10000):
+            self.test_unbalanced_tree()
+        t1 = time.time()
+        total = t1 - t0
+        print(total)
 
     def test_root_node_has_parent(self):
         records = [

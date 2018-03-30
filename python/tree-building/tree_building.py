@@ -9,42 +9,39 @@ class Node():
         self.node_id = node_id
         self.children = []
 
+    def __str__(self):
+        return "id: " + str(self.node_id) + "\n\tchildren: " + str([str(child.node_id) for child in self.children])
+
 
 def BuildTree(records):
-    root = None
+    # If there are no records, return None
+    if not records:
+        return None
+
     records.sort(key=lambda x: x.record_id)
-    ordered_id = [i.record_id for i in records]
-    if records:
-        if ordered_id[-1] != len(ordered_id) - 1:
-            raise ValueError("Final record id does not match number of records")
-        if ordered_id[0] != 0:
-            raise ValueError("First element does not have an i")
-    trees = []
-    parent = {}
-    for i in range(len(ordered_id)):
-        for j in records:
-            if ordered_id[i] == j.record_id:
-                if j.record_id == 0:
-                    if j.parent_id != 0:
-                        raise ValueError("Root node has parent other than itself")
-                if j.record_id < j.parent_id:
-                    raise ValueError(str(j.record_id) + " has parent_id " + str(j.parent_id) + " which is lesser")
-                if j.record_id == j.parent_id:
-                    if j.record_id != 0:
-                        raise ValueError(str(j.record_id) + " has itself as its parent")
-                trees.append(Node(ordered_id[i]))
-    for i in range(len(ordered_id)):
-        for j in trees:
-            if i == j.node_id:
-                parent = j
-        for j in records:
-            if j.parent_id == i:
-                for k in trees:
-                    if k.node_id == 0:
-                        continue
-                    if j.record_id == k.node_id:
-                        child = k
-                        parent.children.append(child)
-    if len(trees) > 0:
-        root = trees[0]
-    return root
+
+    tree = [Node(record.record_id) for record in records]
+
+    root_record = records[0]
+
+    if not (root_record.record_id == 0 == root_record.parent_id):
+        raise ValueError("Invalid root record")
+
+    for i in range(len(records) - 1, 0, -1):
+        record = records[i]
+
+        if record.record_id < record.parent_id:
+            raise ValueError("record_id: " + str(record.record_id) + " is less than parent_id: " + str(record.parent_id))
+        elif i != record.record_id:
+            raise ValueError("Missing record")
+        elif record.record_id == record.parent_id:
+            raise ValueError("record_id: " + str(record.record_id) + " has the same parent_id")
+
+        last_node = tree.pop()
+
+        tree[record.parent_id].children.append(last_node)
+        tree[record.parent_id].children.sort(key=lambda x: x.node_id)
+
+    if len(tree) != 1:
+        raise ValueError("Records has unconnected elements")
+    return tree[0]
