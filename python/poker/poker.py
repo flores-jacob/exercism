@@ -7,13 +7,11 @@ class Card:
     def __init__(self, card_str):
         self.number, self.suit = card_str[:-1], card_str[-1:]
 
-    def __cmp__(self, other):
-        if Card.num_ranking.index(self.number) > Card.num_ranking.index(other.number):
-            return 1
-        elif Card.num_ranking.index(self.number) < Card.num_ranking.index(other.number):
-            return -1
-        else:
-            return 0
+    def __lt__(self, other):
+        return Card.num_ranking.index(self.number) < Card.num_ranking.index(other.number)
+
+    def __eq__(self, other):
+        return Card.num_ranking.index(self.number) == Card.num_ranking.index(other.number)
 
     def __str__(self):
         return str((self.number, self.suit))
@@ -22,6 +20,7 @@ class Card:
 class Hand:
     def __init__(self, hand_str: str):
         self.hand = [Card(card_str) for card_str in hand_str.split()]
+        self.highest_card = max(self.hand)
 
     def __str__(self):
         return str([str(card) for card in self.hand])
