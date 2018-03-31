@@ -1,3 +1,5 @@
+from collections import Counter
+
 STRAIGHT_FLUSH = "straight_flush"
 FOUR_OF_A_KIND = "four_of_a_kind"
 FULL_HOUSE = "full_house"
@@ -39,6 +41,40 @@ class Hand:
         if Hand.hand_ranking.index(self.hand_type) < Hand.hand_ranking.index(other.hand_type):
             return True
         elif Hand.hand_ranking.index(self.hand_type) == Hand.hand_ranking.index(other.hand_type):
+            return self._lt_compare_same_hand_patterns(other)
+
+        else:
+            return False
+
+    def __eq__(self, other):
+        return self._eq_compare_same_hand_patterns(other)
+
+    def __str__(self):
+        return str(" ".join([str(card) for card in self.hand]))
+
+    @property
+    def hand_type(self):
+        # Count number of occurences of each score
+        score_counts = Counter(self.scores)
+
+        print("score_counts",score_counts)
+
+        max_score = max(score_counts.values())
+
+        if max_score == 2:
+            return ONE_PAIR
+        else:
+            return HIGH_CARD
+
+    @property
+    def hand_is_same_suit(self):
+        return all(card == self.hand[0] for card in self.hand)
+
+    def _lt_compare_same_hand_patterns(self, other):
+        if self.hand_type != other.hand_type:
+            raise ValueError("Cannot compare dissimilar hand types")
+
+        if self.hand_type == HIGH_CARD == other.hand_type:
             self_uniques = [score for score in self.scores if score not in other.scores]
             other_uniques = [score for score in other.scores if score not in self.scores]
 
@@ -48,27 +84,16 @@ class Hand:
                 return True
             else:
                 return False
-        else:
-            return False
 
-    def __eq__(self, other):
-        equal_types = Hand.hand_ranking.index(self.hand_type) == Hand.hand_ranking.index(other.hand_type)
+    def _eq_compare_same_hand_patterns(self, other):
+        if Hand.hand_ranking.index(self.hand_type) != Hand.hand_ranking.index(other.hand_type):
+            raise ValueError("Cannot compare dissimilar hand types")
 
-        self_uniques = [score for score in self.scores if score not in other.scores]
-        other_uniques = [score for score in other.scores if score not in self.scores]
+        if self.hand_type == HIGH_CARD == other.hand_type:
+            self_uniques = [score for score in self.scores if score not in other.scores]
+            other_uniques = [score for score in other.scores if score not in self.scores]
 
-        return equal_types and (self_uniques == other_uniques)
-
-    def __str__(self):
-        return str(" ".join([str(card) for card in self.hand]))
-
-    @property
-    def hand_type(self):
-        # TODO make sure that correct hand type is given
-        return HIGH_CARD
-
-    def hand_is_same_suit(self):
-        return all(card == self.hand[0] for card in self.hand)
+            return self_uniques == other_uniques
 
     # def is_straight_flush(self):
     #     if self.hand_is_same_suit() and
