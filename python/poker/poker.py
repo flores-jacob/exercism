@@ -33,20 +33,31 @@ class Hand:
     def __init__(self, hand_str: str):
         self.hand = [Card(card_str) for card_str in hand_str.split()]
         self.highest_card = max(self.hand)
+        self.scores = [Card.num_ranking.index(card.number) for card in self.hand]
 
     def __lt__(self, other):
         if Hand.hand_ranking.index(self.hand_type) < Hand.hand_ranking.index(other.hand_type):
             return True
         elif Hand.hand_ranking.index(self.hand_type) == Hand.hand_ranking.index(other.hand_type):
-            return self.highest_card < other.highest_card
+            self_uniques = [score for score in self.scores if score not in other.scores]
+            other_uniques = [score for score in other.scores if score not in self.scores]
+
+            if self_uniques and other_uniques:
+                return max(self_uniques) < max(other_uniques)
+            elif other_uniques:
+                return True
+            else:
+                return False
         else:
             return False
 
     def __eq__(self, other):
         equal_types = Hand.hand_ranking.index(self.hand_type) == Hand.hand_ranking.index(other.hand_type)
-        equal_highest_cards = self.highest_card == other.highest_card
 
-        return equal_types and equal_highest_cards
+        self_uniques = [score for score in self.scores if score not in other.scores]
+        other_uniques = [score for score in other.scores if score not in self.scores]
+
+        return equal_types and (self_uniques == other_uniques)
 
     def __str__(self):
         return str(" ".join([str(card) for card in self.hand]))
