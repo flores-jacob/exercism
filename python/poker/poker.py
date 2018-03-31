@@ -1,4 +1,5 @@
 from collections import Counter
+import operator
 
 STRAIGHT_FLUSH = "straight_flush"
 FOUR_OF_A_KIND = "four_of_a_kind"
@@ -36,6 +37,8 @@ class Hand:
         self.hand = [Card(card_str) for card_str in hand_str.split()]
         self.highest_card = max(self.hand)
         self.scores = [Card.num_ranking.index(card.number) for card in self.hand]
+        # Count number of occurences of each score
+        self.score_counts = Counter(self.scores)
 
     def __lt__(self, other):
         if Hand.hand_ranking.index(self.hand_type) < Hand.hand_ranking.index(other.hand_type):
@@ -47,6 +50,12 @@ class Hand:
             return False
 
     def __eq__(self, other):
+        equal_hands = Hand.hand_ranking.index(self.hand_type) == Hand.hand_ranking.index(other.hand_type)
+
+        if not equal_hands:
+            print("not equal hands")
+            return False
+
         return self._eq_compare_same_hand_patterns(other)
 
     def __str__(self):
@@ -54,12 +63,7 @@ class Hand:
 
     @property
     def hand_type(self):
-        # Count number of occurences of each score
-        score_counts = Counter(self.scores)
-
-        print("score_counts",score_counts)
-
-        max_score = max(score_counts.values())
+        max_score = max(self.score_counts.values())
 
         if max_score == 2:
             return ONE_PAIR
@@ -84,16 +88,30 @@ class Hand:
                 return True
             else:
                 return False
+        elif self.hand_type == ONE_PAIR == other.hand_type:
+            # https://stackoverflow.com/a/268285
+            self_pair_score = max(self.score_counts.items(), key=operator.itemgetter(1))[0]
+            other_pair_score = max(other.score_counts.items(), key=operator.itemgetter(1))[0]
+
+            return self_pair_score < other_pair_score
+
+        else:
+            return False
+
 
     def _eq_compare_same_hand_patterns(self, other):
-        if Hand.hand_ranking.index(self.hand_type) != Hand.hand_ranking.index(other.hand_type):
-            raise ValueError("Cannot compare dissimilar hand types")
-
         if self.hand_type == HIGH_CARD == other.hand_type:
             self_uniques = [score for score in self.scores if score not in other.scores]
             other_uniques = [score for score in other.scores if score not in self.scores]
 
             return self_uniques == other_uniques
+        elif self.hand_type == ONE_PAIR == other.hand_type:
+            self_pair_score = max(self.score_counts.items(), key=operator.itemgetter(1))[0]
+            other_pair_score = max(other.score_counts.items(), key=operator.itemgetter(1))[0]
+
+            return self_pair_score == other_pair_score
+        else:
+            return False
 
     # def is_straight_flush(self):
     #     if self.hand_is_same_suit() and
