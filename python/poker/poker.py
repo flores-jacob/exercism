@@ -39,6 +39,9 @@ class Hand:
         self.scores = [Card.num_ranking.index(card.number) for card in self.hand]
         # Count number of occurences of each score
         self.score_counts = Counter(self.scores)
+        # Scores of available pairs
+        self.pair_scores = sorted([score for score, count in self.score_counts.items() if count == 2])
+
 
     def __lt__(self, other):
         if Hand.hand_ranking.index(self.hand_type) < Hand.hand_ranking.index(other.hand_type):
@@ -53,7 +56,6 @@ class Hand:
         equal_hands = Hand.hand_ranking.index(self.hand_type) == Hand.hand_ranking.index(other.hand_type)
 
         if not equal_hands:
-            print("not equal hands")
             return False
 
         return self._eq_compare_same_hand_patterns(other)
@@ -65,7 +67,9 @@ class Hand:
     def hand_type(self):
         max_score = max(self.score_counts.values())
 
-        if max_score == 2:
+        if len(self.pair_scores) == 2:
+            return TWO_PAIR
+        elif len(self.pair_scores) == 1:
             return ONE_PAIR
         else:
             return HIGH_CARD
@@ -95,9 +99,19 @@ class Hand:
 
             return self_pair_score < other_pair_score
 
+        elif self.hand_type == TWO_PAIR == other.hand_type:
+            self_pair_uniques = [score for score in self.pair_scores if score not in other.pair_scores]
+            other_pair_uniques = [score for score in other.pair_scores if score not in self.pair_scores]
+
+            if self_pair_uniques and other_pair_uniques:
+                return max(self_pair_uniques) < max(other_pair_uniques)
+            elif other_pair_uniques:
+                return True
+            else:
+                return False
+
         else:
             return False
-
 
     def _eq_compare_same_hand_patterns(self, other):
         if self.hand_type == HIGH_CARD == other.hand_type:
@@ -105,11 +119,15 @@ class Hand:
             other_uniques = [score for score in other.scores if score not in self.scores]
 
             return self_uniques == other_uniques
+
         elif self.hand_type == ONE_PAIR == other.hand_type:
             self_pair_score = max(self.score_counts.items(), key=operator.itemgetter(1))[0]
             other_pair_score = max(other.score_counts.items(), key=operator.itemgetter(1))[0]
 
             return self_pair_score == other_pair_score
+
+        elif self.hand_type == TWO_PAIR == other.hand_type:
+            return self.pair_scores == other.pair_scores
         else:
             return False
 
