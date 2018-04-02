@@ -59,6 +59,26 @@ class Hand:
     def __str__(self):
         return str(" ".join([str(card) for card in self.hand]))
 
+    def _lt_singles(self, other):
+        self_single_uniques, other_single_uniques = get_unique_scores(self.single_scores, other.single_scores)
+
+        if self_single_uniques and other_single_uniques:
+            return max(self_single_uniques) < max(other_single_uniques)
+        elif other_single_uniques:
+            return True
+        else:
+            return False
+
+    def _lt_pairs(self, other):
+        self_pair_uniques, other_pair_uniques = get_unique_scores(self.pair_scores, other.pair_scores)
+
+        if self_pair_uniques and other_pair_uniques:
+            return max(self_pair_uniques) < max(other_pair_uniques)
+        elif other_pair_uniques:
+            return True
+        else:
+            # Tie breaker with single cards
+            return self._lt_singles(other)
 
     @property
     def hand_is_same_suit(self):
@@ -76,14 +96,7 @@ class HighCard(Hand):
         if other.__class__ != HighCard:
             return Hand.__lt__(self, other)
 
-        self_single_uniques, other_single_uniques = get_unique_scores(self.single_scores, other.single_scores)
-
-        if self_single_uniques and other_single_uniques:
-            return max(self_single_uniques) < max(other_single_uniques)
-        elif other_single_uniques:
-            return True
-        else:
-            return False
+        return self._lt_singles(other)
 
     def __eq__(self, other):
         if other.__class__ != HighCard:
@@ -104,22 +117,7 @@ class OnePair(Hand):
         if other.__class__ != self.__class__:
             return Hand.__lt__(self, other)
 
-        self_pair_uniques, other_pair_uniques = get_unique_scores(self.pair_scores, other.pair_scores)
-
-        if self_pair_uniques and other_pair_uniques:
-            return max(self_pair_uniques) < max(other_pair_uniques)
-        elif other_pair_uniques:
-            return True
-
-        # Tie breaker with single cards
-        self_single_uniques, other_single_uniques = get_unique_scores(self.single_scores, other.single_scores)
-
-        if self_single_uniques and other_single_uniques:
-            return max(self_single_uniques) < max(other_single_uniques)
-        elif other_single_uniques:
-            return True
-
-        return False
+        return self._lt_pairs(other)
 
     def __eq__(self, other):
         # If both aren't OnePair or if both aren't TwoPair:
