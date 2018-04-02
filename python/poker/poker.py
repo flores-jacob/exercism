@@ -112,7 +112,7 @@ class HighCard(Hand):
         # If we are dealing with different hand patters, use the Hand
         # super class to make the comparison
         if other.__class__ != HighCard:
-            return super(HighCard, self).__lt__(other)
+            return Hand.__lt__(self, other)
 
         self_uniques = [score for score in self.scores if score not in other.scores]
         other_uniques = [score for score in other.scores if score not in self.scores]
@@ -126,7 +126,7 @@ class HighCard(Hand):
 
     def __eq__(self, other):
         if other.__class__ != HighCard:
-            return super(HighCard, self).__eq__(other)
+            return Hand.__eq__(self, other)
 
         self_uniques = [score for score in self.scores if score not in other.scores]
         other_uniques = [score for score in other.scores if score not in self.scores]
