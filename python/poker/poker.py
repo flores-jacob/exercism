@@ -28,6 +28,13 @@ class Card:
         return str("".join([self.number, self.suit]))
 
 
+def get_unique_scores(scores_a, scores_b):
+    uniques_a = [score for score in scores_a if score not in scores_b]
+    uniques_b = [score for score in scores_b if score not in scores_a]
+
+    return uniques_a, uniques_b
+
+
 class Hand:
     hand_ranking = [HIGH_CARD, ONE_PAIR, TWO_PAIR, THREE_OF_A_KIND,
                     STRAIGHT, FLUSH, FULL_HOUSE, FOUR_OF_A_KIND,
@@ -52,6 +59,7 @@ class Hand:
     def __str__(self):
         return str(" ".join([str(card) for card in self.hand]))
 
+
     @property
     def hand_is_same_suit(self):
         return all(card == self.hand[0] for card in self.hand)
@@ -68,8 +76,7 @@ class HighCard(Hand):
         if other.__class__ != HighCard:
             return Hand.__lt__(self, other)
 
-        self_single_uniques = [score for score in self.single_scores if score not in other.single_scores]
-        other_single_uniques = [score for score in other.single_scores if score not in self.single_scores]
+        self_single_uniques, other_single_uniques = get_unique_scores(self.single_scores, other.single_scores)
 
         if self_single_uniques and other_single_uniques:
             return max(self_single_uniques) < max(other_single_uniques)
@@ -82,8 +89,7 @@ class HighCard(Hand):
         if other.__class__ != HighCard:
             return Hand.__eq__(self, other)
 
-        self_single_uniques = [score for score in self.single_scores if score not in other.single_scores]
-        other_single_uniques = [score for score in other.single_scores if score not in self.single_scores]
+        self_single_uniques, other_single_uniques = get_unique_scores(self.single_scores, other.single_scores)
 
         return self_single_uniques == other_single_uniques == []
 
