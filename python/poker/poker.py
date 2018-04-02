@@ -47,10 +47,6 @@ def hand_is_straight(scores):
     return diff1 and diff2 and diff3 and (diff4 or diff5)
 
 
-def hand_is_flush(card_instance_list):
-    return all(card.suit == card_instance_list[0].suit for card in card_instance_list)
-
-
 class Hand:
     hand_ranking = [HIGH_CARD, ONE_PAIR, TWO_PAIR, THREE_OF_A_KIND,
                     STRAIGHT, FLUSH, FULL_HOUSE, FOUR_OF_A_KIND,
@@ -297,23 +293,25 @@ class StraightFlush(Straight):
 
 def get_hand_instance(hand_str):
     hand = [Card(card_str) for card_str in hand_str.split()]
-    scores = [Card.num_ranking.index(card.number) for card in hand]
+    individual_scores = [Card.num_ranking.index(card.number) for card in hand]
     # Count number of occurrences of each score
-    score_counts = Counter(scores)
+    score_counts = Counter(individual_scores)
     # Scores of available pairs
     pair_scores = sorted([score for score, count in score_counts.items() if count == 2])
     triple_scores = sorted([score for score, count in score_counts.items() if count == 3])
     quad_scores = sorted([score for score, count in score_counts.items() if count == 4])
 
-    if hand_is_straight(scores) and hand_is_flush(hand):
+    all_suits_the_same = all(card.suit == hand[0].suit for card in hand)
+
+    if hand_is_straight(individual_scores) and all_suits_the_same:
         return StraightFlush(hand_str)
     elif len(quad_scores) == 1:
         return FourOfAKind(hand_str)
     elif (len(triple_scores) == 1) and (len(pair_scores) == 1):
         return FullHouse(hand_str)
-    elif hand_is_flush(hand):
+    elif all_suits_the_same:
         return Flush(hand_str)
-    elif hand_is_straight(scores):
+    elif hand_is_straight(individual_scores):
         return Straight(hand_str)
     elif len(triple_scores) == 1:
         return ThreeOfAKind(hand_str)
