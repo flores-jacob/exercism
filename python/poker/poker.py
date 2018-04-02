@@ -58,7 +58,6 @@ class Hand:
 
     def __init__(self, hand_str: str):
         self.hand = [Card(card_str) for card_str in hand_str.split()]
-        self.highest_card = max(self.hand)
         self.scores = [Card.num_ranking.index(card.number) for card in self.hand]
         # Count number of occurrences of each score
         self.score_counts = Counter(self.scores)
@@ -212,18 +211,16 @@ class Straight(Hand):
         super().__init__(hand_str)
         self.hand_type = STRAIGHT
 
-        sorted_scores = sorted(self.scores)
-
         # If the last element is one more than the penultimate one, then
         # the last element is the highest card
-        if sorted_scores[-1] - sorted_scores[-2] == 1:
-            self.straight_high = sorted_scores[-1]
+        if self.single_scores[-1] - self.single_scores[-2] == 1:
+            self.straight_high = self.single_scores[-1]
         # if the last element is greater than the penultimate one by more
         # than one, then the last element is probably the ace which has a
         # score of 12, and the penultimate element is 5, and the pattern
         # is A 2 3 4 5, with 5 as the high card
         else:
-            self.straight_high = sorted_scores[-2]
+            self.straight_high = self.single_scores[-2]
 
     def __lt__(self, other):
         if other.__class__ != self.__class__:
