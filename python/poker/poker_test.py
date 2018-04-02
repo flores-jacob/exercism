@@ -57,6 +57,14 @@ class PokerTest(unittest.TestCase):
         expected = ["2S 4H 6C 4D JD"]
         self.assertEqual(best_hands(hands), expected)
 
+    def test_draw_pair_tiekicker(self):
+        hands = [
+            "4S 5H 6S JS JH",
+            "2S 4H 6C JC JD",
+        ]
+        expected = ["4S 5H 6S JS JH"]
+        self.assertEqual(best_hands(hands), expected)
+
     def test_two_pairs_beats_one_pair(self):
         hands = [
             "2S 8H 6S 8D JH",

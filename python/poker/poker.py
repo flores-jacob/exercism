@@ -40,6 +40,9 @@ class Hand:
         # Count number of occurences of each score
         self.score_counts = Counter(self.scores)
 
+        self.single_scores = sorted([score for score, count in self.score_counts.items() if count == 1])
+        self.pair_scores = sorted([score for score, count in self.score_counts.items() if count == 2])
+
     def __lt__(self, other):
         return Hand.hand_ranking.index(self.hand_type) < Hand.hand_ranking.index(other.hand_type)
 
@@ -65,12 +68,12 @@ class HighCard(Hand):
         if other.__class__ != HighCard:
             return Hand.__lt__(self, other)
 
-        self_uniques = [score for score in self.scores if score not in other.scores]
-        other_uniques = [score for score in other.scores if score not in self.scores]
+        self_single_uniques = [score for score in self.single_scores if score not in other.single_scores]
+        other_single_uniques = [score for score in other.single_scores if score not in self.single_scores]
 
-        if self_uniques and other_uniques:
-            return max(self_uniques) < max(other_uniques)
-        elif other_uniques:
+        if self_single_uniques and other_single_uniques:
+            return max(self_single_uniques) < max(other_single_uniques)
+        elif other_single_uniques:
             return True
         else:
             return False
@@ -79,10 +82,10 @@ class HighCard(Hand):
         if other.__class__ != HighCard:
             return Hand.__eq__(self, other)
 
-        self_uniques = [score for score in self.scores if score not in other.scores]
-        other_uniques = [score for score in other.scores if score not in self.scores]
+        self_single_uniques = [score for score in self.single_scores if score not in other.single_scores]
+        other_single_uniques = [score for score in other.single_scores if score not in self.single_scores]
 
-        return self_uniques == other_uniques == []
+        return self_single_uniques == other_single_uniques == []
 
 
 class OnePair(Hand):
@@ -96,10 +99,32 @@ class OnePair(Hand):
             return Hand.__lt__(self, other)
 
         # https://stackoverflow.com/a/268285
-        self_pair_score = max(self.score_counts.items(), key=operator.itemgetter(1))[0]
-        other_pair_score = max(other.score_counts.items(), key=operator.itemgetter(1))[0]
+        # self_pair_score = max(self.score_counts.items(), key=operator.itemgetter(1))[0]
+        # other_pair_score = max(other.score_counts.items(), key=operator.itemgetter(1))[0]
 
-        return self_pair_score < other_pair_score
+        # return self_pair_score < other_pair_score
+
+        self_pair_uniques = [score for score in self.pair_scores if score not in other.pair_scores]
+        other_pair_uniques = [score for score in other.pair_scores if score not in self.pair_scores]
+
+        if self_pair_uniques and other_pair_uniques:
+            return max(self_pair_uniques) < max(other_pair_uniques)
+        elif other_pair_uniques:
+            return True
+        # Tie breaker, compare single cards
+        # elif (self_pair_uniques == []) and (other_pair_uniques == []):
+        #     return HighCard.__lt__(self, other)
+        # Insert tie breaker here
+
+        self_single_uniques = [score for score in self.single_scores if score not in other.single_scores]
+        other_single_uniques = [score for score in other.single_scores if score not in self.single_scores]
+
+        if self_single_uniques and other_single_uniques:
+            return max(self_single_uniques) < max(other_single_uniques)
+        elif other_single_uniques:
+            return True
+
+        return False
 
     def __eq__(self, other):
         if other.__class__ != OnePair:
@@ -108,7 +133,10 @@ class OnePair(Hand):
         self_pair_score = max(self.score_counts.items(), key=operator.itemgetter(1))[0]
         other_pair_score = max(other.score_counts.items(), key=operator.itemgetter(1))[0]
 
-        return self_pair_score == other_pair_score
+        self_single_uniques = [score for score in self.single_scores if score not in other.single_scores]
+        other_single_uniques = [score for score in other.single_scores if score not in self.single_scores]
+
+        return (self_pair_score == other_pair_score) and (self_single_uniques == other_single_uniques)
 
 
 class TwoPair(Hand):
