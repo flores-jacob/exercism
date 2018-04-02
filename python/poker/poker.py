@@ -1,7 +1,4 @@
-# TODO refactor move eq into separate functions
-
 from collections import Counter
-import operator
 
 STRAIGHT_FLUSH = "straight_flush"
 FOUR_OF_A_KIND = "four_of_a_kind"
@@ -146,11 +143,6 @@ class Hand:
         return (self_fours_uniques == other_fours_uniques == []) and self._eq_singles(other)
 
 
-    @property
-    def hand_is_same_suit(self):
-        return all(card == self.hand[0] for card in self.hand)
-
-
 class HighCard(Hand):
     def __init__(self, hand_str: str):
         super().__init__(hand_str)
@@ -234,13 +226,13 @@ class Straight(Hand):
             self.straight_high = sorted_scores[-2]
 
     def __lt__(self, other):
-        if other.__class__ != Straight:
+        if other.__class__ != self.__class__:
             return Hand.__lt__(self, other)
 
         return self.straight_high < other.straight_high
 
     def __eq__(self, other):
-        if other.__class__ != Straight:
+        if other.__class__ != self.__class__:
             return Hand.__eq__(self, other)
 
         return self.straight_high == other.straight_high
@@ -300,6 +292,12 @@ class FourOfAKind(Hand):
         return self._eq_fours(other)
 
 
+class StraightFlush(Straight):
+    def __init__(self, hand_str):
+        super().__init__(hand_str)
+        self.hand_type = STRAIGHT_FLUSH
+
+
 def get_hand_instance(hand_str):
     hand = [Card(card_str) for card_str in hand_str.split()]
     scores = [Card.num_ranking.index(card.number) for card in hand]
@@ -310,7 +308,9 @@ def get_hand_instance(hand_str):
     triple_scores = sorted([score for score, count in score_counts.items() if count == 3])
     quad_scores = sorted([score for score, count in score_counts.items() if count == 4])
 
-    if len(quad_scores) == 1:
+    if hand_is_straight(scores) and hand_is_flush(hand):
+        return StraightFlush(hand_str)
+    elif len(quad_scores) == 1:
         return FourOfAKind(hand_str)
     elif (len(triple_scores) == 1) and (len(pair_scores) == 1):
         return FullHouse(hand_str)
