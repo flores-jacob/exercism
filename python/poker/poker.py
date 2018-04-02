@@ -1,3 +1,5 @@
+# TODO refactor move eq into separate functions
+
 from collections import Counter
 import operator
 
@@ -80,6 +82,17 @@ class Hand:
             # Tie breaker with single cards
             return self._lt_singles(other)
 
+    def _lt_threes(self, other):
+        self_threes_uniques, other_threes_uniques = get_unique_scores(self.threes_scores, other.threes_scores)
+
+        if self_threes_uniques and other_threes_uniques:
+            return max(self_threes_uniques) < max(other_threes_uniques)
+        elif other_threes_uniques:
+            return True
+        else:
+            # Tie breaker with single cards
+            return self._lt_pairs(other)
+
     @property
     def hand_is_same_suit(self):
         return all(card == self.hand[0] for card in self.hand)
@@ -136,6 +149,31 @@ class TwoPair(OnePair):
         self.hand_type = TWO_PAIR
 
 
+class ThreeOfAKind(Hand):
+    def __init__(self, hand_str: str):
+        super().__init__(hand_str)
+        self.hand_type = THREE_OF_A_KIND
+        self.threes_scores = sorted([score for score, count in self.score_counts.items() if count == 3])
+
+    def __lt__(self, other):
+        if other.__class__ != ThreeOfAKind:
+            return Hand.__lt__(self, other)
+
+        return self._lt_threes(other)
+
+    def __eq__(self, other):
+        if other.__class__ != ThreeOfAKind:
+            return Hand.__lt__(self, other)
+
+        self_threes_uniques, other_threes_uniques = get_unique_scores(self.threes_scores, other.threes_scores)
+        self_pair_uniques, other_pair_uniques = get_unique_scores(self.pair_scores, other.pair_scores)
+        self_single_uniques, other_single_uniques = get_unique_scores(self.single_scores, other.single_scores)
+
+        return (self_threes_uniques == other_threes_uniques == []) \
+               and (self_pair_uniques == other_pair_uniques == []) \
+               and (self_single_uniques == other_single_uniques)
+
+
 def get_hand_instance(hand_str):
     hand = [Card(card_str) for card_str in hand_str.split()]
     scores = [Card.num_ranking.index(card.number) for card in hand]
@@ -143,8 +181,11 @@ def get_hand_instance(hand_str):
     score_counts = Counter(scores)
     # Scores of available pairs
     pair_scores = sorted([score for score, count in score_counts.items() if count == 2])
+    triple_scores = sorted([score for score, count in score_counts.items() if count == 3])
 
-    if len(pair_scores) == 2:
+    if len(triple_scores) == 1:
+        return ThreeOfAKind(hand_str)
+    elif len(pair_scores) == 2:
         return TwoPair(hand_str)
     elif len(pair_scores) == 1:
         return OnePair(hand_str)
@@ -153,7 +194,6 @@ def get_hand_instance(hand_str):
 
 def best_hands(hands):
     hand_instances = [get_hand_instance(hand_str) for hand_str in hands]
-
 
     # Get highest hands
     # https://stackoverflow.com/a/21894160
