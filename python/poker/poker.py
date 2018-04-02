@@ -68,6 +68,7 @@ class Hand:
 
         self.single_scores = sorted([score for score, count in self.score_counts.items() if count == 1])
         self.pair_scores = sorted([score for score, count in self.score_counts.items() if count == 2])
+        self.threes_scores = sorted([score for score, count in self.score_counts.items() if count == 3])
 
     def __lt__(self, other):
         return Hand.hand_ranking.index(self.hand_type) < Hand.hand_ranking.index(other.hand_type)
@@ -181,7 +182,6 @@ class ThreeOfAKind(Hand):
     def __init__(self, hand_str: str):
         super().__init__(hand_str)
         self.hand_type = THREE_OF_A_KIND
-        self.threes_scores = sorted([score for score, count in self.score_counts.items() if count == 3])
 
     def __lt__(self, other):
         if other.__class__ != ThreeOfAKind:
@@ -245,6 +245,24 @@ class Flush(Hand):
         return self._eq_singles(other)
 
 
+class FullHouse(Hand):
+    def __init__(self, hand_str):
+        super().__init__(hand_str)
+        self.hand_type = FULL_HOUSE
+
+    def __lt__(self, other):
+        if other.__class__ != FullHouse:
+            return Hand.__lt__(self, other)
+
+        return self._lt_threes(other)
+
+    def __eq__(self, other):
+        if other.__class__ != FullHouse:
+            return Hand.__eq__(self, other)
+
+        return self._eq_threes(other)
+
+
 def get_hand_instance(hand_str):
     hand = [Card(card_str) for card_str in hand_str.split()]
     scores = [Card.num_ranking.index(card.number) for card in hand]
@@ -254,7 +272,9 @@ def get_hand_instance(hand_str):
     pair_scores = sorted([score for score, count in score_counts.items() if count == 2])
     triple_scores = sorted([score for score, count in score_counts.items() if count == 3])
 
-    if hand_is_flush(hand):
+    if (len(triple_scores) == 1) and (len(pair_scores) == 1):
+        return FullHouse(hand_str)
+    elif hand_is_flush(hand):
         return Flush(hand_str)
     elif hand_is_straight(scores):
         return Straight(hand_str)
