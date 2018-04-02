@@ -37,6 +37,19 @@ def get_unique_scores(scores_a, scores_b):
     return uniques_a, uniques_b
 
 
+def hand_is_straight(scores):
+    scores = sorted(scores)
+    diff1 = (scores[0] - scores[1]) == -1
+    diff2 = (scores[0] - scores[2]) == -2
+    diff3 = (scores[0] - scores[3]) == -3
+    diff4 = (scores[0] - scores[4]) == -4
+
+    # 2(0pts) 3(1pts) 4(2pts) 5(3pts) A(12pts)
+    diff5 = scores[0] - scores[4] == -12
+
+    return diff1 and diff2 and diff3 and (diff4 or diff5)
+
+
 class Hand:
     hand_ranking = [HIGH_CARD, ONE_PAIR, TWO_PAIR, THREE_OF_A_KIND,
                     STRAIGHT, FLUSH, FULL_HOUSE, FOUR_OF_A_KIND,
@@ -46,7 +59,7 @@ class Hand:
         self.hand = [Card(card_str) for card_str in hand_str.split()]
         self.highest_card = max(self.hand)
         self.scores = [Card.num_ranking.index(card.number) for card in self.hand]
-        # Count number of occurences of each score
+        # Count number of occurrences of each score
         self.score_counts = Counter(self.scores)
 
         self.single_scores = sorted([score for score, count in self.score_counts.items() if count == 1])
@@ -90,7 +103,7 @@ class Hand:
         elif other_threes_uniques:
             return True
         else:
-            # Tie breaker with single cards
+            # Tie breaker with pair cards
             return self._lt_pairs(other)
 
     def _eq_singles(self, other):
@@ -112,6 +125,8 @@ class Hand:
     @property
     def hand_is_same_suit(self):
         return all(card == self.hand[0] for card in self.hand)
+
+
 
 
 class HighCard(Hand):
@@ -174,21 +189,54 @@ class ThreeOfAKind(Hand):
 
     def __eq__(self, other):
         if other.__class__ != ThreeOfAKind:
-            return Hand.__lt__(self, other)
+            return Hand.__eq__(self, other)
 
         return self._eq_threes(other)
+
+
+class Straight(Hand):
+    def __init__(self, hand_str: str):
+        super().__init__(hand_str)
+        self.hand_type = STRAIGHT
+
+        sorted_scores = sorted(self.scores)
+
+        # If the last element is one more than the penultimate one, then
+        # the last element is the highest card
+        if sorted_scores[-1] - sorted_scores[-2] == 1:
+            self.straight_high = sorted_scores[-1]
+        # if the last element is greater than the penultimate one by more
+        # than one, then the last element is probably the ace which has a
+        # score of 12, and the penultimate element is 5, and the pattern
+        # is A 2 3 4 5, with 5 as the high card
+        else:
+            self.straight_high = sorted_scores[-2]
+
+    def __lt__(self, other):
+        if other.__class__ != Straight:
+            return Hand.__lt__(self, other)
+
+        return self.straight_high < other.straight_high
+
+    def __eq__(self, other):
+        if other.__class__ != Straight:
+            return Hand.__eq__(self, other)
+
+        return self.straight_high == other.straight_high
 
 
 def get_hand_instance(hand_str):
     hand = [Card(card_str) for card_str in hand_str.split()]
     scores = [Card.num_ranking.index(card.number) for card in hand]
-    # Count number of occurences of each score
+    # Count number of occurrences of each score
     score_counts = Counter(scores)
     # Scores of available pairs
     pair_scores = sorted([score for score, count in score_counts.items() if count == 2])
     triple_scores = sorted([score for score, count in score_counts.items() if count == 3])
 
-    if len(triple_scores) == 1:
+    if hand_is_straight(scores):
+        return Straight(hand_str)
+    elif len(triple_scores) == 1:
         return ThreeOfAKind(hand_str)
     elif len(pair_scores) == 2:
         return TwoPair(hand_str)
