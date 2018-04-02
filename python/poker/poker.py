@@ -69,6 +69,7 @@ class Hand:
         self.single_scores = sorted([score for score, count in self.score_counts.items() if count == 1])
         self.pair_scores = sorted([score for score, count in self.score_counts.items() if count == 2])
         self.threes_scores = sorted([score for score, count in self.score_counts.items() if count == 3])
+        self.fours_scores = sorted([score for score, count in self.score_counts.items() if count == 4])
 
     def __lt__(self, other):
         return Hand.hand_ranking.index(self.hand_type) < Hand.hand_ranking.index(other.hand_type)
@@ -111,6 +112,17 @@ class Hand:
             # Tie breaker with pair cards
             return self._lt_pairs(other)
 
+    def _lt_fours(self, other):
+        self_fours_uniques, other_fours_uniques = get_unique_scores(self.fours_scores, other.fours_scores)
+
+        if self_fours_uniques and other_fours_uniques:
+            return max(self_fours_uniques) < max(other_fours_uniques)
+        elif other_fours_uniques:
+            return True
+        else:
+            # Tie breaker with single card
+            return self._lt_singles(other)
+
     def _eq_singles(self, other):
         self_single_uniques, other_single_uniques = get_unique_scores(self.single_scores, other.single_scores)
 
@@ -126,6 +138,13 @@ class Hand:
         self_threes_uniques, other_threes_uniques = get_unique_scores(self.threes_scores, other.threes_scores)
 
         return (self_threes_uniques == other_threes_uniques == []) and self._eq_pairs(other)
+
+    def _eq_fours(self, other):
+
+        self_fours_uniques, other_fours_uniques = get_unique_scores(self.fours_scores, other.fours_scores)
+
+        return (self_fours_uniques == other_fours_uniques == []) and self._eq_singles(other)
+
 
     @property
     def hand_is_same_suit(self):
@@ -263,6 +282,24 @@ class FullHouse(Hand):
         return self._eq_threes(other)
 
 
+class FourOfAKind(Hand):
+    def __init__(self, hand_str):
+        super().__init__(hand_str)
+        self.hand_type = FOUR_OF_A_KIND
+
+    def __lt__(self, other):
+        if other.__class__ != FourOfAKind:
+            return Hand.__lt__(self, other)
+
+        return self._lt_fours(other)
+
+    def __eq__(self, other):
+        if other.__class__ != FourOfAKind:
+            return Hand.__eq__(self, other)
+
+        return self._eq_fours(other)
+
+
 def get_hand_instance(hand_str):
     hand = [Card(card_str) for card_str in hand_str.split()]
     scores = [Card.num_ranking.index(card.number) for card in hand]
@@ -271,8 +308,11 @@ def get_hand_instance(hand_str):
     # Scores of available pairs
     pair_scores = sorted([score for score, count in score_counts.items() if count == 2])
     triple_scores = sorted([score for score, count in score_counts.items() if count == 3])
+    quad_scores = sorted([score for score, count in score_counts.items() if count == 4])
 
-    if (len(triple_scores) == 1) and (len(pair_scores) == 1):
+    if len(quad_scores) == 1:
+        return FourOfAKind(hand_str)
+    elif (len(triple_scores) == 1) and (len(pair_scores) == 1):
         return FullHouse(hand_str)
     elif hand_is_flush(hand):
         return Flush(hand_str)
