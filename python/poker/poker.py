@@ -104,14 +104,7 @@ class OnePair(Hand):
         if other.__class__ != self.__class__:
             return Hand.__lt__(self, other)
 
-        # https://stackoverflow.com/a/268285
-        # self_pair_score = max(self.score_counts.items(), key=operator.itemgetter(1))[0]
-        # other_pair_score = max(other.score_counts.items(), key=operator.itemgetter(1))[0]
-
-        # return self_pair_score < other_pair_score
-
-        self_pair_uniques = [score for score in self.pair_scores if score not in other.pair_scores]
-        other_pair_uniques = [score for score in other.pair_scores if score not in self.pair_scores]
+        self_pair_uniques, other_pair_uniques = get_unique_scores(self.pair_scores, other.pair_scores)
 
         if self_pair_uniques and other_pair_uniques:
             return max(self_pair_uniques) < max(other_pair_uniques)
@@ -119,8 +112,7 @@ class OnePair(Hand):
             return True
 
         # Tie breaker with single cards
-        self_single_uniques = [score for score in self.single_scores if score not in other.single_scores]
-        other_single_uniques = [score for score in other.single_scores if score not in self.single_scores]
+        self_single_uniques, other_single_uniques = get_unique_scores(self.single_scores, other.single_scores)
 
         if self_single_uniques and other_single_uniques:
             return max(self_single_uniques) < max(other_single_uniques)
@@ -134,13 +126,10 @@ class OnePair(Hand):
         if other.__class__ != self.__class__:
             return Hand.__eq__(self, other)
 
-        self_pair_score = max(self.score_counts.items(), key=operator.itemgetter(1))[0]
-        other_pair_score = max(other.score_counts.items(), key=operator.itemgetter(1))[0]
+        self_pair_uniques, other_pair_uniques = get_unique_scores(self.pair_scores, other.pair_scores)
+        self_single_uniques, other_single_uniques = get_unique_scores(self.single_scores, other.single_scores)
 
-        self_single_uniques = [score for score in self.single_scores if score not in other.single_scores]
-        other_single_uniques = [score for score in other.single_scores if score not in self.single_scores]
-
-        return (self_pair_score == other_pair_score) and (self_single_uniques == other_single_uniques)
+        return (self_pair_uniques == other_pair_uniques == []) and (self_single_uniques == other_single_uniques)
 
 
 class TwoPair(OnePair):
