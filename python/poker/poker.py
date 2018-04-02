@@ -50,6 +50,10 @@ def hand_is_straight(scores):
     return diff1 and diff2 and diff3 and (diff4 or diff5)
 
 
+def hand_is_flush(card_instance_list):
+    return all(card.suit == card_instance_list[0].suit for card in card_instance_list)
+
+
 class Hand:
     hand_ranking = [HIGH_CARD, ONE_PAIR, TWO_PAIR, THREE_OF_A_KIND,
                     STRAIGHT, FLUSH, FULL_HOUSE, FOUR_OF_A_KIND,
@@ -125,8 +129,6 @@ class Hand:
     @property
     def hand_is_same_suit(self):
         return all(card == self.hand[0] for card in self.hand)
-
-
 
 
 class HighCard(Hand):
@@ -225,6 +227,24 @@ class Straight(Hand):
         return self.straight_high == other.straight_high
 
 
+class Flush(Hand):
+    def __init__(self, hand_str):
+        super().__init__(hand_str)
+        self.hand_type = FLUSH
+
+    def __lt__(self, other):
+        if other.__class__ != Flush:
+            return Hand.__lt__(self, other)
+
+        return self._lt_singles(other)
+
+    def __eq__(self, other):
+        if other.__class__ != Flush:
+            return Hand.__eq__(self, other)
+
+        return self._eq_singles(other)
+
+
 def get_hand_instance(hand_str):
     hand = [Card(card_str) for card_str in hand_str.split()]
     scores = [Card.num_ranking.index(card.number) for card in hand]
@@ -234,7 +254,9 @@ def get_hand_instance(hand_str):
     pair_scores = sorted([score for score, count in score_counts.items() if count == 2])
     triple_scores = sorted([score for score, count in score_counts.items() if count == 3])
 
-    if hand_is_straight(scores):
+    if hand_is_flush(hand):
+        return Flush(hand_str)
+    elif hand_is_straight(scores):
         return Straight(hand_str)
     elif len(triple_scores) == 1:
         return ThreeOfAKind(hand_str)
