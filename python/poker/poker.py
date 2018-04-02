@@ -89,13 +89,13 @@ class HighCard(Hand):
 
 
 class OnePair(Hand):
-    # TODO write tie kicker
     def __init__(self, hand_str: str):
         super().__init__(hand_str)
         self.hand_type = ONE_PAIR
 
     def __lt__(self, other):
-        if other.__class__ != OnePair:
+        # If both aren't OnePair or if both aren't TwoPair:
+        if other.__class__ != self.__class__:
             return Hand.__lt__(self, other)
 
         # https://stackoverflow.com/a/268285
@@ -111,11 +111,8 @@ class OnePair(Hand):
             return max(self_pair_uniques) < max(other_pair_uniques)
         elif other_pair_uniques:
             return True
-        # Tie breaker, compare single cards
-        # elif (self_pair_uniques == []) and (other_pair_uniques == []):
-        #     return HighCard.__lt__(self, other)
-        # Insert tie breaker here
 
+        # Tie breaker with single cards
         self_single_uniques = [score for score in self.single_scores if score not in other.single_scores]
         other_single_uniques = [score for score in other.single_scores if score not in self.single_scores]
 
@@ -127,7 +124,8 @@ class OnePair(Hand):
         return False
 
     def __eq__(self, other):
-        if other.__class__ != OnePair:
+        # If both aren't OnePair or if both aren't TwoPair:
+        if other.__class__ != self.__class__:
             return Hand.__eq__(self, other)
 
         self_pair_score = max(self.score_counts.items(), key=operator.itemgetter(1))[0]
@@ -139,38 +137,13 @@ class OnePair(Hand):
         return (self_pair_score == other_pair_score) and (self_single_uniques == other_single_uniques)
 
 
-class TwoPair(Hand):
+class TwoPair(OnePair):
     def __init__(self, hand_str: str):
         super().__init__(hand_str)
         self.hand_type = TWO_PAIR
-        self.pair_scores = sorted([score for score, count in self.score_counts.items() if count == 2])
-
-    def __lt__(self, other):
-        if other.__class__ != TwoPair:
-            return Hand.__lt__(self, other)
-
-        self_pair_uniques = [score for score in self.pair_scores if score not in other.pair_scores]
-        other_pair_uniques = [score for score in other.pair_scores if score not in self.pair_scores]
-
-        if self_pair_uniques and other_pair_uniques:
-            return max(self_pair_uniques) < max(other_pair_uniques)
-        elif other_pair_uniques:
-            return True
-        else:
-            return False
-
-    def __eq__(self, other):
-        if other.__class__ != TwoPair:
-            return Hand.__eq__(self, other)
-
-        return self.pair_scores == other.pair_scores
 
 
 def get_hand_instance(hand_str):
-    hand_ranking = [HIGH_CARD, ONE_PAIR, TWO_PAIR, THREE_OF_A_KIND,
-                    STRAIGHT, FLUSH, FULL_HOUSE, FOUR_OF_A_KIND,
-                    STRAIGHT_FLUSH]
-
     hand = [Card(card_str) for card_str in hand_str.split()]
     scores = [Card.num_ranking.index(card.number) for card in hand]
     # Count number of occurences of each score
@@ -178,11 +151,6 @@ def get_hand_instance(hand_str):
     # Scores of available pairs
     pair_scores = sorted([score for score, count in score_counts.items() if count == 2])
 
-    # for count in score_counts:
-    #     print(count)
-
-
-    print(score_counts)
     if len(pair_scores) == 2:
         return TwoPair(hand_str)
     elif len(pair_scores) == 1:
@@ -191,10 +159,6 @@ def get_hand_instance(hand_str):
 
 
 def best_hands(hands):
-    for hand_str in hands:
-        hand = HighCard(hand_str)
-        # print(HighCard(hand_str) < HighCard(hand_str))
-
     hand_instances = [get_hand_instance(hand_str) for hand_str in hands]
 
 
