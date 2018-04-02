@@ -93,6 +93,22 @@ class Hand:
             # Tie breaker with single cards
             return self._lt_pairs(other)
 
+    def _eq_singles(self, other):
+        self_single_uniques, other_single_uniques = get_unique_scores(self.single_scores, other.single_scores)
+
+        return self_single_uniques == other_single_uniques == []
+
+    def _eq_pairs(self, other):
+        self_pair_uniques, other_pair_uniques = get_unique_scores(self.pair_scores, other.pair_scores)
+
+        return (self_pair_uniques == other_pair_uniques == []) and self._eq_singles(other)
+
+    def _eq_threes(self, other):
+
+        self_threes_uniques, other_threes_uniques = get_unique_scores(self.threes_scores, other.threes_scores)
+
+        return (self_threes_uniques == other_threes_uniques == []) and self._eq_pairs(other)
+
     @property
     def hand_is_same_suit(self):
         return all(card == self.hand[0] for card in self.hand)
@@ -115,9 +131,7 @@ class HighCard(Hand):
         if other.__class__ != HighCard:
             return Hand.__eq__(self, other)
 
-        self_single_uniques, other_single_uniques = get_unique_scores(self.single_scores, other.single_scores)
-
-        return self_single_uniques == other_single_uniques == []
+        return self._eq_singles(other)
 
 
 class OnePair(Hand):
@@ -137,10 +151,7 @@ class OnePair(Hand):
         if other.__class__ != self.__class__:
             return Hand.__eq__(self, other)
 
-        self_pair_uniques, other_pair_uniques = get_unique_scores(self.pair_scores, other.pair_scores)
-        self_single_uniques, other_single_uniques = get_unique_scores(self.single_scores, other.single_scores)
-
-        return (self_pair_uniques == other_pair_uniques == []) and (self_single_uniques == other_single_uniques)
+        return self._eq_pairs(other)
 
 
 class TwoPair(OnePair):
@@ -165,13 +176,7 @@ class ThreeOfAKind(Hand):
         if other.__class__ != ThreeOfAKind:
             return Hand.__lt__(self, other)
 
-        self_threes_uniques, other_threes_uniques = get_unique_scores(self.threes_scores, other.threes_scores)
-        self_pair_uniques, other_pair_uniques = get_unique_scores(self.pair_scores, other.pair_scores)
-        self_single_uniques, other_single_uniques = get_unique_scores(self.single_scores, other.single_scores)
-
-        return (self_threes_uniques == other_threes_uniques == []) \
-               and (self_pair_uniques == other_pair_uniques == []) \
-               and (self_single_uniques == other_single_uniques)
+        return self._eq_threes(other)
 
 
 def get_hand_instance(hand_str):
