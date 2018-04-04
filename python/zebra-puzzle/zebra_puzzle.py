@@ -1,6 +1,4 @@
 import copy
-from collections import namedtuple
-
 
 COLOR = "color"
 colors = ["red", "green", "ivory", "yellow", "blue"]
@@ -149,65 +147,6 @@ def eliminate(house_list):
                     remove_if_present(house_list[other_house_index][key], deduced_answer)
 
 
-
-def infer_eliminations(house_list):
-    Inference = namedtuple("Inference", ["key1", "group1", "key2", "group2"])
-
-    # If house1 has the following:
-    #   nationalities   = [Japanese, Ukranian]
-    #   drinks          = [tea, orange_juice"]
-    # and if house2 has the following:
-    #   nationalities   = [Japanese, Ukranian, Spaniard]
-    #   drinks          = [tea, orange_juice"]
-    # What we do is we remove "Spaniard" from house2
-    inferred_groups = []
-
-    for house in house_list:
-        for first_key in house.keys():
-            for second_key in house.keys():
-                the_same_key = first_key == second_key
-                the_same_length = len(house[first_key]) == len(house[second_key]) > 1
-                # the_same_length = 1 < len(house[first_key]) == len(house[second_key]) <= 3
-                if (not the_same_key) and the_same_length:
-                    inferred_group = Inference(first_key, house[first_key], second_key, house[second_key])
-
-                    if inferred_group and (inferred_group not in inferred_groups):
-                        inferred_groups.append(inferred_group)
-
-    for house in house_list:
-        for group in inferred_groups:
-            for key in house.keys():
-                same_key = group.key1 == key
-                group1_match = house[key].sort() == group.group1.sort()
-
-                if same_key and group1_match and set(group.group2).issubset(house[group.key2]):
-                    house[group.key2] = group.group2
-
-                # same_key2 = group.key2 == key
-                # group2_match = house[key].sort() == group.group2.sort()
-                #
-                # if same_key2 and group2_match and set(group.group1).issubset(house[group.key1]):
-                #     house[group.key1] = group.group1
-
-
-def infer_appointment(house_list):
-    for house_index in range(0, 5):
-        other_houses = [0, 1, 2, 3, 4]
-        other_houses.remove(house_index)
-
-        keys = house_list[house_index].keys()
-
-        for key in keys:
-            other_house_field_contents = []
-            for other_house_index in other_houses:
-                other_house_field_contents.extend(house_list[other_house_index][key])
-            missing_in_others = [elem for elem in house_list[house_index][key] if elem not in other_house_field_contents]
-            if missing_in_others:
-                house_list[house_index][key] = missing_in_others
-
-    return house_list
-
-
 def clues(houses):
     same_house_fact(houses, NATIONALITY, ENGLISHMAN, COLOR, RED)
     same_house_fact(houses, NATIONALITY, SPANIARD, PET, DOG)
@@ -255,7 +194,7 @@ remove_if_present(houses[1][DRINK], ORANGE_JUICE)
 
 # OJ and Lucky strike can only be placed on two indices, index 3 or index 4
 # Here we use index 3 and obtain the desired results
-simple_location_based_fact(houses, 3, DRINK, ORANGE_JUICE)
+# simple_location_based_fact(houses, 3, DRINK, ORANGE_JUICE)
 
 for i in range(30):
     clues(houses)
