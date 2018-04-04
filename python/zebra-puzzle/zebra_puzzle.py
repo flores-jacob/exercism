@@ -33,9 +33,6 @@ def remove_if_present(source_list, item):
     if item in source_list: source_list.remove(item)
 
 
-houses = [copy.deepcopy(house_template) for i in range(5)]
-
-
 def simple_location_based_fact(house_list, house_index, predicate_key, predicate_value):
     # Remove the value from all houses
     for house in house_list:
@@ -176,36 +173,60 @@ def clues(houses):
     return houses
 
 
-for i in range(30):
-    clues(houses)
-    eliminate(houses)
+def iterate_through_clues(house_list):
+    value_count = 0
+    for house in house_list:
+        for key in house.keys():
+            value_count += len(house[key])
 
-# infer_eliminations(houses)
-# infer_appointment(houses)
+    new_count = 0
+
+    while value_count != new_count:
+        value_count = new_count
+        new_count = 0
+        clues(house_list)
+        eliminate(house_list)
+        for house in house_list:
+            for key in house.keys():
+                new_count += len(house[key])
+        # Loops around 4 times
+
+
+# Initialize houses
+house_list = [copy.deepcopy(house_template) for i in range(5)]
+
+# Run the houses through the clues
+iterate_through_clues(house_list)
 
 # The color Red can't possibly be found on index 3, inbetween ivory and
 # green
-remove_if_present(houses[3][COLOR], RED)
+remove_if_present(house_list[3][COLOR], RED)
 # Choosing OJ and Lucky Strike on index 2 would prevent the insertion of
 # either the Japanese or Ukrainian, as such, we disqualify them from
 # that index
-remove_if_present(houses[1][DRINK], ORANGE_JUICE)
-
-
+remove_if_present(house_list[1][DRINK], ORANGE_JUICE)
 # OJ and Lucky strike can only be placed on two indices, index 3 or index 4
 # Here we use index 3 and obtain the desired results
-# simple_location_based_fact(houses, 3, DRINK, ORANGE_JUICE)
+simple_location_based_fact(house_list, 3, DRINK, ORANGE_JUICE)
 
-for i in range(30):
-    clues(houses)
-    eliminate(houses)
+# Run through the clues once again
+iterate_through_clues(house_list)
 
-for house in houses:
+for house in house_list:
     print(house[NATIONALITY], house[DRINK], house[COLOR], house[PET], house[SMOKES])
 
+
 def drinks_water():
-    pass
+    for house in house_list:
+        if house[DRINK] == [WATER]:
+            return house[NATIONALITY][0]
+
+    return None
 
 
 def owns_zebra():
-    pass
+    for house in house_list:
+        if house[PET] == [ZEBRA]:
+            return house[NATIONALITY][0]
+
+    return None
