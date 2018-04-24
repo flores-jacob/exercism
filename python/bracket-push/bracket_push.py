@@ -1,5 +1,6 @@
 bracket_dict = {"(": ")", "[": "]", "{": "}"}
 
+
 def brackets_match(opening_bracket, closing_bracket):
     return bracket_dict[opening_bracket] == closing_bracket
 
@@ -23,7 +24,8 @@ def is_paired(input_string):
                 return False
 
             # Check and return if the opening and closing brackets match
-            return brackets_match(top_of_stack, char)
+            if brackets_match(top_of_stack, char) is False:
+                return False
 
     # Once done processing the string, bracket_stack should be empty
     # If empty, this means that all brackets have been matched
